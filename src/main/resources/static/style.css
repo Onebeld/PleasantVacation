@@ -1,0 +1,52 @@
+body {
+    margin: 0;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Header */
+header {
+    height: 70px;
+    background-color: #c49a9a;
+}
+
+.logo {
+    flex: 1 0 0;
+}
+
+.container {
+    height: 100%;
+    margin: 0 20px;
+}
+
+.profile {
+    width: 40px;
+    height: 40px;
+    background-color: #b9b9b9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+.header-row {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-evenly;
+    justify-self: flex-end;
+    padding: 15px 25px;
+}
+
+/* Main */
+
+/* Footer */
