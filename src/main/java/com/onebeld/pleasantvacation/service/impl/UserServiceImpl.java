@@ -1,50 +1,39 @@
 package com.onebeld.pleasantvacation.service.impl;
 
 import com.onebeld.pleasantvacation.dto.UserDto;
-import com.onebeld.pleasantvacation.entity.Role;
 import com.onebeld.pleasantvacation.entity.User;
-import com.onebeld.pleasantvacation.repository.RoleRepository;
+import com.onebeld.pleasantvacation.entity.enums.Role;
 import com.onebeld.pleasantvacation.repository.UserRepository;
 import com.onebeld.pleasantvacation.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void saveUser(UserDto userDto) {
-        User user = new User();
+        User user = new User(
+                userDto.getSurname(),
+                userDto.getName(),
+                userDto.getPatronymic(),
+                userDto.getEmail(),
+                userDto.getPassword(),
+                userDto.getCity(),
+                userDto.getCountry(),
+                Role.USER);
 
-        user.setSurname(userDto.getSurname());
-        user.setName(userDto.getName());
-        user.setPatronymic(userDto.getPatronymic());
-        user.setEmail(userDto.getEmail());
-        user.setCity(userDto.getCity());
-        user.setCountry(userDto.getCountry());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        Role role = roleRepository.findByName("USER");
-        if (role == null) {
-            role = checkRoleExists();
-        }
-
-        user.setRoles(List.of(role));
         userRepository.save(user);
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -67,12 +56,5 @@ public class UserServiceImpl implements UserService {
         userDto.setPassword(user.getPassword());
 
         return userDto;
-    }
-
-    private Role checkRoleExists() {
-        Role role = new Role();
-        role.setName("USER");
-
-        return roleRepository.save(role);
     }
 }

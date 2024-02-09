@@ -1,25 +1,54 @@
 package com.onebeld.pleasantvacation.entity;
 
-import java.util.List;
+import com.onebeld.pleasantvacation.entity.enums.Role;
+import jakarta.persistence.*;
 
-public class User {
+import java.io.Serializable;
+
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "surname", nullable = false)
     private String surname;
 
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "patronymic")
     private String patronymic;
 
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "city", nullable = false)
     private String city;
 
+    @Column(name = "country", nullable = false)
     private String country;
 
-    private List<Role> roles;
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Role role;
+
+    protected User() { }
+
+    public User(String surname, String name, String patronymic, String email, String password, String city, String country, Role role) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.email = email;
+        this.password = password;
+        this.city = city;
+        this.country = country;
+        this.role = role;
+    }
 
     public long getId() {
         return id;
@@ -85,11 +114,26 @@ public class User {
         this.country = country;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

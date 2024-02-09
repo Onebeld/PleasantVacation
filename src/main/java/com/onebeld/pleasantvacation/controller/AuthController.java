@@ -1,8 +1,13 @@
 package com.onebeld.pleasantvacation.controller;
 
 import com.onebeld.pleasantvacation.dto.UserDto;
+import com.onebeld.pleasantvacation.forms.LoginForm;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -14,5 +19,12 @@ public class AuthController {
         model.addAttribute("user", userDto);
 
         return "register";
+    }
+
+    @PostMapping("/add/user")
+    public ResponseEntity addUser(@RequestBody LoginForm loginForm) {
+        // TODO: Add user
+
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }
