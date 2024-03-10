@@ -9,20 +9,21 @@ Element.prototype.getFirstElementByClassName = function (className) {
     return this.getElementsByClassName(className)[0];
 };
 
-async function getTrips() {
-    const response = await fetch("/hub/trips?page=0&elementsInPage=10");
+async function getTrips(page = 0) {
+    let trips;
 
-    if (!response.ok) {
-        throw new Error(response.statusText);
-    }
+    await fetch(window.location.origin + "/hub/trips?page=" + page + "&elementsInPage=10")
+        .then(res => res.json())
+        .then(data => trips = data);
 
-    return await response.json();
+    return trips;
 }
 
 async function makeTripList() {
     let trips = await getTrips();
+    console.log(trips);
 
-    for (const trip in trips) {
+    for (const trip of trips) {
         const newDiv = fromHTML(tripTemplate);
 
         newDiv.getFirstElementByClassName("trip-description").innerText = trip.description;
@@ -32,4 +33,6 @@ async function makeTripList() {
     }
 }
 
-await makeTripList();
+window.onload = async function () {
+    await makeTripList();
+}

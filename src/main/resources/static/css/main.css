@@ -1,0 +1,121 @@
+:root {
+    --pleasant-corner-radius: 8pt;
+    --pleasant-rounded-corner-radius: 20pt;
+
+    --pleasant-primary-background-color: #c9e4dc;
+
+    --pleasant-main-background-color: #daece7;
+    --pleasant-main-hovered-background-color: #d3e6e0;
+    --pleasant-main-pressed-background-color: #cee0db;
+
+    --pleasant-border-color: #B9DCD2;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, serif;
+}
+
+/* Body */
+header {
+    height: 35pt;
+    padding: 0 20px;
+    background-color: var(--pleasant-primary-background-color);
+    border-bottom: 1pt solid var(--pleasant-border-color);
+}
+
+main {
+    padding: 10px;
+    background-color: var(--pleasant-main-background-color);
+    flex: 1 1 auto;
+}
+
+footer {
+    height: 35pt;
+    padding: 10pt;
+    background-color: var(--pleasant-primary-background-color);
+    border-top: 1pt solid var(--pleasant-border-color);
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Header */
+div.container {
+    height: 100%;
+    margin: 0 auto;
+}
+
+div.header_row {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+div.profile {
+    width: 30px;
+    height: 30px;
+    background-color: var(--pleasant-main-background-color);
+    border-radius: 50%;
+    border: 1pt solid var(--pleasant-border-color);
+    font-size: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a.nav-button {
+    text-decoration: none;
+    border: 1pt solid var(--pleasant-border-color);
+    border-radius: var(--pleasant-rounded-corner-radius);
+    background-color: var(--pleasant-main-background-color);
+    padding: 3pt 10pt;
+    color: black;
+    margin: 0 3pt;
+    font-size: 8pt;
+}
+a.nav-button:hover {
+    background-color: var(--pleasant-main-hovered-background-color);
+}
+a.nav-button:active {
+    background-color: var(--pleasant-main-pressed-background-color);
+}
+
+div.nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    margin-right: 10pt;
+}
+
+div.logo {
+    font-family: Montserrat, serif;
+    font-weight: bold;
+}
+
+/* Icons Sizes */
+.material-symbols-rounded.md-16 {
+    font-size: 16px;
+}
+.material-symbols-rounded.md-18 {
+    font-size: 18px;
+}
+.material-symbols-rounded.md-24 {
+    font-size: 24px;
+}
+.material-symbols-rounded.md-36 {
+    font-size: 36px;
+}
+.material-symbols-rounded.md-48 {
+    font-size: 48px;
+}

@@ -1,73 +1,29 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
     <head>
         <meta charset="UTF-8">
-        <title>Pleasant Vacation - Hub</title>
+        <title>Pleasant Vacation - [[#{head.title.hub}]]</title>
+        <script th:src="@{/js/main.js}"></script>
+        <link rel="stylesheet" th:href="@{/css/main.css}">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     </head>
     <body>
-        <h1>Hub</h1>
+        <div class="wrapper">
+            <div th:replace="fragments/header :: header"></div>
 
-        <div id="trips">
+            <main>
+                <div id="trips">
 
+                </div>
+            </main>
+
+            <div th:replace="fragments/footer :: footer"></div>
         </div>
 
-        <span th:text="${serverTime}" />
-
-        <script>
-            const tripTemplate = `
-    <div class="trip">
-        <h3 class="trip-header">Trip</h3>
-        <p class="trip-description"></p>
-    </div>
-`;
-
-            Element.prototype.getFirstElementByClassName = function (className) {
-                return this.getElementsByClassName(className)[0];
-            };
-
-            function fromHTML(html, trim = true) {
-                // Process the HTML string.
-                html = trim ? html.trim() : html;
-                if (!html) return null;
-
-                // Then set up a new template element.
-                const template = document.createElement('template');
-                template.innerHTML = html;
-                const result = template.content.children;
-
-                // Then return either an HTMLElement or HTMLCollection,
-                // based on whether the input HTML had one or more roots.
-                if (result.length === 1) return result[0];
-                return result;
-            }
-
-            async function getTrips(page = 0) {
-                let trips;
-
-                await fetch(window.location.origin + "/hub/trips?page=" + page + "&elementsInPage=10")
-                    .then(res => res.json())
-                    .then(data => trips = data);
-
-                return trips;
-            }
-
-            async function makeTripList() {
-                let trips = await getTrips();
-                console.log(trips);
-
-                for (const trip of trips) {
-                    const newDiv = fromHTML(tripTemplate);
-
-                    newDiv.getFirstElementByClassName("trip-description").innerText = trip.description;
-                    newDiv.getFirstElementByClassName("trip-header").innerText = trip.name;
-
-                    document.getElementById("trips").appendChild(newDiv);
-                }
-            }
-
-            window.onload = async function () {
-                await makeTripList();
-            }
-        </script>
+        <script th:src="@{/js/hub.js}"></script>
     </body>
 </html>
