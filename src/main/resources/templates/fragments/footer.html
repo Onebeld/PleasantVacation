@@ -1,3 +1,24 @@
-<footer>
-    Подвал
+<footer xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <div class="footer-container">
+        <div class="footer-info-container">
+            <div class="footer_column">
+                <img id="onebeld" th:src="@{media/Onebeld.svg}" alt="">
+            </div>
+
+            <div class="footer-column navigation">
+                <div class="footer-navigation-column">
+                    <h3 class="footer-navigation-title" th:text="#{footer.navigation}"></h3>
+                    <ul class="footer-navigation-links">
+                        <li><a th:href="@{/}" th:text="#{head.title.main}"></a></li>
+                        <li><a th:href="@{/hub}" th:text="#{head.title.hub}"></a></li>
+                        <li><a th:href="@{/about}" th:text="#{head.title.about}"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <hr class="footer-line">
+
+        <p class="footer-copyright" th:text="#{footer.copyright}"></p>
+    </div>
 </footer>

@@ -2,9 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
     <head>
         <meta charset="UTF-8">
-        <title>Pleasant Vacation | [[#{head.title.hub}]]</title>
+        <title>Pleasant Vacation | [[#{error.accessDenied}]]</title>
         <script th:src="@{/js/main.js}"></script>
         <link rel="stylesheet" th:href="@{/css/main.css}">
+        <link rel="stylesheet" th:href="@{/css/error.css}">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,14 +17,13 @@
             <th:block th:replace="fragments/header :: header"></th:block>
 
             <main>
-                <div id="trips">
-
+                <div class="container">
+                    <h1 class="error-code">403</h1>
+                    <p class="error-message" th:text="#{error.accessDenied.message}"></p>
                 </div>
             </main>
 
             <th:block th:replace="fragments/footer :: footer"></th:block>
         </div>
-
-        <script th:src="@{/js/hub.js}"></script>
     </body>
 </html>

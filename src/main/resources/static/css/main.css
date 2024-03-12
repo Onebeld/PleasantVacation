@@ -2,13 +2,21 @@
     --pleasant-corner-radius: 8pt;
     --pleasant-rounded-corner-radius: 20pt;
 
-    --pleasant-primary-background-color: #c9e4dc;
+    --pleasant-primary-background-color: #C9E4DC;
 
-    --pleasant-main-background-color: #daece7;
-    --pleasant-main-hovered-background-color: #d3e6e0;
-    --pleasant-main-pressed-background-color: #cee0db;
+    --pleasant-main-background-color: #DAECE7;
+    --pleasant-main-hovered-background-color: #D3E6E0;
+    --pleasant-main-pressed-background-color: #CEE0DB;
 
     --pleasant-border-color: #B9DCD2;
+
+    --pleasant-header-foreground: #336657;
+
+    --pleasant-text-foreground: #11221D;
+    --pleasant-text-selected-foreground: #336657;
+    --pleasant-text-active-foreground: #000;
+
+    --pleasant-text-secondary-foreground: rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -19,11 +27,35 @@ body {
     margin: 0;
     padding: 0;
     font-family: Roboto, serif;
+    color: var(--pleasant-text-foreground);
+}
+
+hr {
+    margin: 10pt 20pt;
+    border: none;
+    border-top: 1pt solid var(--pleasant-border-color);
+}
+hr.vertical {
+    margin: 0 10pt;
+    border: none;
+    border-left: 1pt solid var(--pleasant-border-color);
+    height: 30pt;
+}
+
+a {
+    color: var(--pleasant-text-foreground);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--pleasant-text-selected-foreground);
+}
+a:active {
+    color: var(--pleasant-text-active-foreground);
 }
 
 /* Body */
 header {
-    height: 35pt;
+    height: 40pt;
     padding: 0 20px;
     background-color: var(--pleasant-primary-background-color);
     border-bottom: 1pt solid var(--pleasant-border-color);
@@ -36,8 +68,8 @@ main {
 }
 
 footer {
-    height: 35pt;
     padding: 10pt;
+    padding-top: 20pt;
     background-color: var(--pleasant-primary-background-color);
     border-top: 1pt solid var(--pleasant-border-color);
 }
@@ -50,7 +82,7 @@ footer {
 }
 
 /* Header */
-div.container {
+div.header-container {
     height: 100%;
     margin: 0 auto;
 }
@@ -63,12 +95,11 @@ div.header_row {
 }
 
 div.profile {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background-color: var(--pleasant-main-background-color);
     border-radius: 50%;
     border: 1pt solid var(--pleasant-border-color);
-    font-size: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -82,7 +113,6 @@ a.nav-button {
     padding: 3pt 10pt;
     color: black;
     margin: 0 3pt;
-    font-size: 8pt;
 }
 a.nav-button:hover {
     background-color: var(--pleasant-main-hovered-background-color);
@@ -95,7 +125,6 @@ div.nav {
     margin-left: auto;
     display: flex;
     align-items: center;
-    margin-right: 10pt;
 }
 
 div.logo {
@@ -103,7 +132,55 @@ div.logo {
     font-weight: bold;
 }
 
+/* Footer */
+div.footer-container {
+    height: 100%;
+    margin: 0 auto;
+}
+
+div.footer-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+div.footer-column.navigation {
+
+}
+
+ul.footer-navigation-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+h3.footer-navigation-title {
+    color: var(--pleasant-header-foreground);
+    margin: 0 0 5pt;
+    font-family: Montserrat, serif;
+}
+
+hr.footer-line {
+    margin: 10pt 50pt;
+}
+
+p.footer-copyright {
+    text-align: center;
+    margin-bottom: 0;
+    color: var(--pleasant-text-secondary-foreground);
+    font-size: 10pt;
+}
+
+img#onebeld {
+    width: 200pt;
+    color: red;
+}
+
 /* Icons Sizes */
+.material-symbols-rounded {
+    color: var(--pleasant-header-foreground);
+}
+
 .material-symbols-rounded.md-16 {
     font-size: 16px;
 }

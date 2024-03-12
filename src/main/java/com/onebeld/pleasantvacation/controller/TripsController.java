@@ -15,27 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Контроллер, отвечающий за отображение веб-страницы с путевками */
 @Controller
-@RequestMapping("/hub")
-public class HubController {
+@RequestMapping("/api")
+public class TripsController {
     private final TripServiceImpl tripService;
 
     /**
      * Создает экземпляр контроллера
      * @param tripRepository Репозиторий для работы с данными о путевках
      */
-    HubController(TripRepository tripRepository) {
+    TripsController(TripRepository tripRepository) {
         this.tripService = new TripServiceImpl(tripRepository);
-    }
-
-    /**
-     * Возвращает страницу, в которой отображаются путевки
-     * @return Шаблон страницы с путевками
-     */
-    @RequestMapping
-    public String hub() {
-        return "hub";
     }
 
     /**

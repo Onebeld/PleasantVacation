@@ -12,7 +12,7 @@ Element.prototype.getFirstElementByClassName = function (className) {
 async function getTrips(page = 0) {
     let trips;
 
-    await fetch(window.location.origin + "/hub/trips?page=" + page + "&elementsInPage=10")
+    await fetch(window.location.origin + "/api/trips?page=" + page + "&elementsInPage=10")
         .then(res => res.json())
         .then(data => trips = data);
 
