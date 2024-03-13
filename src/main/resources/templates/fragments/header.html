@@ -1,11 +1,11 @@
 <header xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
     <div class="header-container">
         <div class="header_row">
-            <div class="logo">PleasantVacation</div>
+            <div class="logo"><a th:href="@{/}"><img id="pleasant-vacation-logo" th:src="@{media/PleasantVacation.svg}" alt="PleasantVacation"></a></div>
 
             <div class="nav">
                 <a th:href="@{/}" class="nav-button" th:text="#{head.title.main}"></a>
-                <a th:href="@{/hub}" class="nav-button" th:text="#{head.title.hub}"></a>
+                <a th:href="@{/tours}" class="nav-button" th:text="#{head.title.tours}"></a>
                 <a th:href="@{/about}" class="nav-button" th:text="#{head.title.about}"></a>
             </div>
 

@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
     <head>
         <meta charset="UTF-8">
-        <title>Pleasant Vacation | [[#{error.serverError}]]</title>
-        <link rel="stylesheet" th:href="@{/css/error.css}">
+        <title>Pleasant Vacation | [[#{head.title.tours}]]</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
     </head>
@@ -12,13 +11,14 @@
             <th:block th:replace="~{fragments/header :: header}"></th:block>
 
             <main>
-                <div class="container">
-                    <h1 class="error-code">500</h1>
-                    <p class="error-message" th:text="#{error.serverError.message}"></p>
+                <div id="trips">
+
                 </div>
             </main>
 
             <th:block th:replace="~{fragments/footer :: footer}"></th:block>
         </div>
+
+        <script th:src="@{/js/hub.js}"></script>
     </body>
 </html>

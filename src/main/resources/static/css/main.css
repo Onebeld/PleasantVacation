@@ -55,8 +55,8 @@ a:active {
 
 /* Body */
 header {
-    height: 40pt;
-    padding: 0 20px;
+    height: 50pt;
+    padding: 0 25pt;
     background-color: var(--pleasant-primary-background-color);
     border-bottom: 1pt solid var(--pleasant-border-color);
 }
@@ -103,6 +103,7 @@ div.profile {
     display: flex;
     justify-content: center;
     align-items: center;
+    user-select: none;
 }
 
 a.nav-button {
@@ -113,6 +114,8 @@ a.nav-button {
     padding: 3pt 10pt;
     color: black;
     margin: 0 3pt;
+    white-space: nowrap;
+    text-align: center;
 }
 a.nav-button:hover {
     background-color: var(--pleasant-main-hovered-background-color);
@@ -123,13 +126,17 @@ a.nav-button:active {
 
 div.nav {
     margin-left: auto;
-    display: flex;
     align-items: center;
+    display: flex;
 }
 
 div.logo {
     font-family: Montserrat, serif;
     font-weight: bold;
+}
+
+img#pleasant-vacation-logo {
+    width: 200px;
 }
 
 /* Footer */

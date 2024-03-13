@@ -9,30 +9,38 @@ Element.prototype.getFirstElementByClassName = function (className) {
     return this.getElementsByClassName(className)[0];
 };
 
+let currentPage = 0;
+
 async function getTrips(page = 0) {
     let trips;
 
-    await fetch(window.location.origin + "/api/trips?page=" + page + "&elementsInPage=10")
-        .then(res => res.json())
+    const url = new URL(window.location.origin + "/api/trips");
+
+    url.searchParams.append("page", page);
+    url.searchParams.append("elementsInPage", 10);
+
+    await fetch(url)
+        .then(result => result.json())
         .then(data => trips = data);
 
     return trips;
 }
 
 async function makeTripList() {
-    let trips = await getTrips();
-    console.log(trips);
+    let trips = await getTrips(currentPage);
 
     for (const trip of trips) {
-        const newDiv = fromHTML(tripTemplate);
+        const div = createElementFromHTML(tripTemplate);
 
-        newDiv.getFirstElementByClassName("trip-description").innerText = trip.description;
-        newDiv.getFirstElementByClassName("trip-header").innerText = trip.name;
+        div.getFirstElementByClassName("trip-description").innerText = trip.description;
+        div.getFirstElementByClassName("trip-header").innerText = trip.name;
 
-        document.getElementById("trips").appendChild(newDiv);
+        document.getElementById("trips").appendChild(div);
     }
+
+    currentPage++;
 }
 
-window.onload = async function () {
+window.addEventListener("load", async () => {
     await makeTripList();
-}
+});

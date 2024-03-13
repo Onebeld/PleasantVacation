@@ -17,8 +17,8 @@ public class MainController {
         return "about";
     }
 
-    @RequestMapping("/hub")
+    @RequestMapping("/tours")
     public String hub() {
-        return "hub";
+        return "tours";
     }
 }
