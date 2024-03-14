@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Pleasant Vacation | [[#{head.title.tours}]]</title>
+        <link rel="stylesheet" th:href="@{/css/tours.css}">
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
     </head>
@@ -11,14 +12,136 @@
             <th:block th:replace="~{fragments/header :: header}"></th:block>
 
             <main>
-                <div id="trips">
+                <div class="filter-block">
+                    <h2 class="filter-title" th:text="#{tours.filter}"></h2>
 
+                    <div class="price-input-container">
+                        <div class="price-input">
+                            <div class="price-field">
+                                <span th:text="#{tours.minPrice}"></span>
+                                <input type="number" class="min-input" value="2500">
+                            </div>
+                            <div class="price-field">
+                                <span th:text="#{tours.maxPrice}"></span>
+                                <input type="number" class="max-input" value="8500">
+                            </div>
+                        </div>
+                        <div class="slider-container">
+                            <div class="price-slider"></div>
+                        </div>
+                    </div>
+
+                    <!-- Slider -->
+                    <div class="range-input">
+                        <input type="range" class="min-range" min="0" max="10000" value="2500" step="1">
+                        <input type="range" class="max-range" min="0" max="10000" value="8500" step="1">
+                    </div>
+                </div>
+
+                <div id="trips">
+                    <div class="trip">
+                        <div class="trip-image-block">
+                            <img class="trip-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                        </div>
+
+                        <div class="trip-info">
+                            <h3 class="trip-header">Trip</h3>
+                            <p class="trip-info-text">Начало: <span class="trip-info-start">2022-01-01</span></p>
+                            <p class="trip-info-text">Окончание: <span class="trip-info-end">2022-01-01</span></p>
+
+                            <p class="trip-info-text-price"><span class="trip-info-price">50 000</span> руб</p>
+                        </div>
+                    </div>
+
+                    <div class="trip">
+                        <div class="trip-image-block">
+                            <img class="trip-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                        </div>
+
+                        <div class="trip-info">
+                            <h3 class="trip-header">Trip</h3>
+                            <p class="trip-info-text">Начало: <span class="trip-info-start">2022-01-01</span></p>
+                            <p class="trip-info-text">Окончание: <span class="trip-info-end">2022-01-01</span></p>
+
+                            <p class="trip-info-text-price"><span class="trip-info-price">50 000</span> руб</p>
+                        </div>
+                    </div>
+
+                    <div class="trip">
+                        <div class="trip-image-block">
+                            <img class="trip-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                        </div>
+
+                        <div class="trip-info">
+                            <h3 class="trip-header">Trip</h3>
+                            <p class="trip-info-text">Начало: <span class="trip-info-start">2022-01-01</span></p>
+                            <p class="trip-info-text">Окончание: <span class="trip-info-end">2022-01-01</span></p>
+
+                            <p class="trip-info-text-price"><span class="trip-info-price">50 000</span> руб</p>
+                        </div>
+                    </div>
+
+                    <div class="trip">
+                        <div class="trip-image-block">
+                            <img class="trip-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                        </div>
+
+                        <div class="trip-info">
+                            <h3 class="trip-header">Trip</h3>
+                            <p class="trip-info-text">Начало: <span class="trip-info-start">2022-01-01</span></p>
+                            <p class="trip-info-text">Окончание: <span class="trip-info-end">2022-01-01</span></p>
+
+                            <p class="trip-info-text-price"><span class="trip-info-price">50 000</span> руб</p>
+                        </div>
+                    </div>
+
+                    <div class="trip">
+                        <div class="trip-image-block">
+                            <img class="trip-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                        </div>
+
+                        <div class="trip-info">
+                            <h3 class="trip-header">Trip</h3>
+                            <p class="trip-info-text">Начало: <span class="trip-info-start">2022-01-01</span></p>
+                            <p class="trip-info-text">Окончание: <span class="trip-info-end">2022-01-01</span></p>
+
+                            <p class="trip-info-text-price"><span class="trip-info-price">50 000</span> руб</p>
+                        </div>
+                    </div>
+
+                    <div class="trip">
+                        <div class="trip-image-block">
+                            <img class="trip-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                        </div>
+
+                        <div class="trip-info">
+                            <h3 class="trip-header">Trip</h3>
+                            <p class="trip-info-text">Начало: <span class="trip-info-start">2022-01-01</span></p>
+                            <p class="trip-info-text">Окончание: <span class="trip-info-end">2022-01-01</span></p>
+
+                            <p class="trip-info-text-price"><span class="trip-info-price">50 000</span> руб</p>
+                        </div>
+                    </div>
+
+                    <div class="trip">
+                        <div class="trip-image-block">
+                            <img class="trip-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                        </div>
+
+                        <div class="trip-info">
+                            <h3 class="trip-header">Trip</h3>
+                            <p class="trip-info-text">Начало: <span class="trip-info-start">2022-01-01</span></p>
+                            <p class="trip-info-text">Окончание: <span class="trip-info-end">2022-01-01</span></p>
+
+                            <p class="trip-info-text-price"><span class="trip-info-price">50 000</span> руб</p>
+                        </div>
+                    </div>
                 </div>
             </main>
 
             <th:block th:replace="~{fragments/footer :: footer}"></th:block>
         </div>
 
-        <script th:src="@{/js/hub.js}"></script>
+        <script th:src="@{/js/tours.js}" th:inline="javascript"></script>
     </body>
 </html>

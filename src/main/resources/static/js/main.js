@@ -17,25 +17,31 @@ function createElementFromHTML(html, trim = true) {
     return result;
 }
 
-/**
- * Sets the size of navigation buttons to the maximum width of all buttons.
- *
- * @param {type} items - description of the items parameter
- * @return {type} undefined - no return value
- */
-function uniformNavigationButtonsSize() {
-    const items = document.querySelectorAll(".nav-button");
-    let maxWidth = 0;
+function openMenu() {
+    const selectWrapper = document.querySelector(".select-wrapper");
 
-    items.forEach(item => {
-        maxWidth = Math.max(maxWidth, item.offsetWidth);
-    });
-
-    items.forEach(item => {
-        item.style.width = `${maxWidth}px`;
-    });
+    if (selectWrapper.style.pointerEvents === "all") {
+        selectWrapper.style.opacity = 0;
+        selectWrapper.style.pointerEvents = "none";
+    }
+    else {
+        selectWrapper.style.opacity = 1;
+        selectWrapper.style.pointerEvents = "all";
+    }
 }
 
-window.addEventListener("load", () => {
-    uniformNavigationButtonsSize();
+function closeMenu() {
+    const selectWrapper = document.querySelector(".select-wrapper");
+    selectWrapper.style.opacity = 0;
+    selectWrapper.style.pointerEvents = "none";
+}
+
+window.addEventListener("click", (event) => {
+    if (!event.target.closest(".nav-button-menu") && !event.target.closest(".select-wrapper")) {
+        closeMenu();
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".nav-button-menu").addEventListener("click", openMenu);
 });

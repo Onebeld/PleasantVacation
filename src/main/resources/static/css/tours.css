@@ -1,0 +1,187 @@
+main {
+    display: flex;
+}
+
+h3 {
+    font-family: Montserrat, serif;
+    font-size: 18pt;
+    margin-top: 0;
+    margin-bottom: 10pt;
+}
+
+div.filter-block {
+    background-color: var(--pleasant-primary-background-color);
+    border: 1pt solid var(--pleasant-border-color);
+    border-radius: var(--pleasant-corner-radius);
+    margin-right: 10pt;
+    padding: 10pt;
+    min-width: 280pt;
+    max-width: 280pt;
+    place-self: flex-start;
+}
+
+div.trip {
+    background-color: var(--pleasant-primary-background-color);
+    border: 1pt solid var(--pleasant-border-color);
+    border-radius: var(--pleasant-corner-radius);
+    overflow: hidden;
+    width: 325pt;
+    height: 250pt;
+}
+
+div.trip-info {
+    padding: 10pt;
+}
+
+p.trip-info-text {
+    margin: 0;
+    font-size: 10pt;
+}
+
+p.trip-info-text-price {
+    font-family: Montserrat, serif;
+    font-weight: 500;
+    font-size: 16pt;
+    margin: 5pt 0 0;
+}
+
+div.trip-image-block {
+    background-color: var(--pleasant-main-background-color);
+    border-bottom: 1pt solid var(--pleasant-border-color);
+    height: 150pt;
+    overflow: hidden;
+}
+
+img.trip-image {
+    width: 100%;
+    object-fit: cover;
+}
+
+div#trips {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 5pt;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+/* Filter */
+h2.filter-title {
+    text-align: center;
+    margin: 0 0 10pt;
+    font-family: Montserrat, serif;
+    color: var(--pleasant-header-foreground);
+}
+
+/* Slider */
+.price-input-container {
+    width: 100%;
+}
+
+.price-input .price-field {
+    display: flex;
+    margin-bottom: 5pt;
+}
+
+.price-input .price-field:last-child {
+    margin-bottom: 20pt;
+}
+
+.price-field span {
+    margin-right: 10px;
+    margin-top: 6px;
+    font-size: 17px;
+}
+
+.price-field input {
+    flex: 1;
+    height: 35px;
+    font-size: 15px;
+    border-radius: var(--pleasant-corner-radius);
+    text-align: center;
+    border: 1pt solid var(--pleasant-border-color);
+    background: var(--pleasant-main-background-color);
+}
+
+.price-input {
+    width: 100%;
+    font-size: 19px;
+    color: #555;
+}
+
+/* Remove Arrows/Spinners */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.slider-container {
+    width: 100%;
+}
+
+.slider-container {
+    height: 6px;
+    position: relative;
+    background: var(--pleasant-main-background-color);
+    border-radius: 5px;
+}
+
+.slider-container .price-slider {
+    height: 100%;
+    left: 25%;
+    right: 15%;
+    position: absolute;
+    border-radius: 5px;
+    background: var(--pleasant-header-foreground);
+}
+
+.range-input {
+    position: relative;
+}
+
+.range-input input {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: none;
+    top: -6px;
+    pointer-events: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+/* Styles for the range thumb in WebKit browsers */
+input[type="range"]::-webkit-slider-thumb {
+    height: 18px;
+    width: 18px;
+    border-radius: 70%;
+    background: var(--pleasant-header-foreground);
+    pointer-events: auto;
+    -webkit-appearance: none;
+}
+
+@media screen and (max-width: 960px){
+    main {
+        flex-direction: column;
+    }
+
+    div.filter-block {
+        margin-right: 0;
+        margin-bottom: 10pt;
+        place-self: stretch;
+        width: 100%;
+        max-width: none;
+    }
+
+    div#trips {
+        justify-content: stretch;
+    }
+
+    div.trip {
+        width: 100%;
+    }
+}

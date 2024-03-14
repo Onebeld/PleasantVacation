@@ -8,6 +8,9 @@
     --pleasant-main-hovered-background-color: #D3E6E0;
     --pleasant-main-pressed-background-color: #CEE0DB;
 
+    --pleasant-menu-hovered-color: #bce1d7;
+    --pleasant-menu-pressed-color: #a9d0c5;
+
     --pleasant-border-color: #B9DCD2;
 
     --pleasant-header-foreground: #336657;
@@ -114,6 +117,7 @@ a.nav-button {
     padding: 3pt 10pt;
     color: black;
     margin: 0 3pt;
+    width: 100pt;
     white-space: nowrap;
     text-align: center;
 }
@@ -139,6 +143,73 @@ img#pleasant-vacation-logo {
     width: 200px;
 }
 
+div.nav-mobile {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    z-index: 100;
+}
+
+button.nav-button-menu {
+    background-color: transparent;
+    border: none;
+    padding: 10pt;
+    margin: 0;
+    cursor: pointer;
+    border-radius: var(--pleasant-corner-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+button.nav-button-menu:hover {
+    background-color: var(--pleasant-menu-hovered-color);
+}
+button.nav-button-menu:active {
+    background-color: var(--pleasant-menu-pressed-color);
+}
+
+.select-wrapper {
+    width: 100%;
+    position: relative;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 100ms linear 0s;
+    filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.2));
+}
+
+.multi-select {
+    margin-top: 4pt;
+    box-sizing: border-box;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    border-radius: var(--pleasant-corner-radius);
+    position: absolute;
+    width: 175pt;
+    left: calc((100% - 175pt) / 2);
+    overflow: hidden;
+    padding: 10pt;
+    background-color: var(--pleasant-main-background-color);
+    border: 1pt solid var(--pleasant-border-color);
+}
+
+.multi-select > .nav-button {
+    display: flex;
+    align-items: center;
+    padding: 0 10pt;
+    border: 0;
+    width: 100%;
+    height: 35pt;
+    gap: 5pt;
+}
+
+h2.menu-title {
+    margin: 0 0 10pt;
+    font-size: 14pt;
+    text-align: center;
+    font-family: Montserrat, serif;
+    color: var(--pleasant-header-foreground);
+}
+
 /* Footer */
 div.footer-container {
     height: 100%;
@@ -151,10 +222,6 @@ div.footer-info-container {
     justify-content: space-around;
 }
 
-div.footer-column.navigation {
-
-}
-
 ul.footer-navigation-links {
     list-style-type: none;
     padding: 0;
@@ -165,6 +232,7 @@ h3.footer-navigation-title {
     color: var(--pleasant-header-foreground);
     margin: 0 0 5pt;
     font-family: Montserrat, serif;
+    font-size: 12pt;
 }
 
 hr.footer-line {
@@ -179,8 +247,7 @@ p.footer-copyright {
 }
 
 img#onebeld {
-    width: 200pt;
-    color: red;
+    width: 150pt;
 }
 
 /* Icons Sizes */
@@ -202,4 +269,16 @@ img#onebeld {
 }
 .material-symbols-rounded.md-48 {
     font-size: 48px;
+}
+
+@media screen and (max-width: 960px) {
+     div.nav {
+         display: none;
+     }
+
+    div.nav-mobile {
+        display: flex;
+        margin-left: auto;
+        align-items: center;
+    }
 }

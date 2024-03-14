@@ -9,6 +9,23 @@
                 <a th:href="@{/about}" class="nav-button" th:text="#{head.title.about}"></a>
             </div>
 
+            <div class="nav-mobile">
+                <button class="nav-button-menu">
+                    <span class="material-symbols-rounded md-24">
+                        menu
+                    </span>
+                </button>
+                <div class="select-wrapper">
+                    <div class="multi-select">
+                        <h2 class="menu-title">Меню</h2>
+
+                        <a th:href="@{/}" class="nav-button"><span class="material-symbols-rounded">home</span> [[#{head.title.main}]]</a>
+                        <a th:href="@{/tours}" class="nav-button"><span class="material-symbols-rounded">flight</span> [[#{head.title.tours}]]</a>
+                        <a th:href="@{/about}" class="nav-button"><span class="material-symbols-rounded">info</span> [[#{head.title.about}]]</a>
+                    </div>
+                </div>
+            </div>
+
             <hr class="vertical">
 
             <div class="profile">
