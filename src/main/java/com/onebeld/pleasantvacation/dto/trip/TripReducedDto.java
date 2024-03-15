@@ -1,15 +1,14 @@
-package com.onebeld.pleasantvacation.dto;
+package com.onebeld.pleasantvacation.dto.trip;
 
+import com.onebeld.pleasantvacation.entity.Trip;
 import jakarta.validation.constraints.Positive;
 
 import java.sql.Date;
 
-public class TripDto {
-
+public class TripReducedDto {
     private long id;
 
     private String name;
-    private String description;
     private String city;
     private String country;
     private Date startDate;
@@ -18,10 +17,20 @@ public class TripDto {
     private double price;
     private boolean allInclusive;
 
-    public TripDto(long id, String name, String description, String city, String country, Date startDate, Date endDate, double price, boolean allInclusive) {
+    public TripReducedDto(Trip trip) {
+        this.id = trip.getId();
+        this.name = trip.getName();
+        this.city = trip.getCity();
+        this.country = trip.getCountry();
+        this.startDate = trip.getStartDate();
+        this.endDate = trip.getEndDate();
+        this.price = trip.getPrice();
+        this.allInclusive = trip.isAllInclusive();
+    }
+
+    public TripReducedDto(long id, String name, String city, String country, Date startDate, Date endDate, double price, boolean allInclusive) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.city = city;
         this.country = country;
         this.startDate = startDate;
@@ -44,14 +53,6 @@ public class TripDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getCity() {

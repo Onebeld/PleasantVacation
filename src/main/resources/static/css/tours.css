@@ -3,7 +3,7 @@ main {
 }
 
 h3 {
-    font-family: Montserrat, serif;
+    font-family: var(--pleasant-font-title);
     font-size: 18pt;
     margin-top: 0;
     margin-bottom: 10pt;
@@ -39,7 +39,7 @@ p.trip-info-text {
 }
 
 p.trip-info-text-price {
-    font-family: Montserrat, serif;
+    font-family: var(--pleasant-font-title);
     font-weight: 500;
     font-size: 16pt;
     margin: 5pt 0 0;
@@ -72,7 +72,7 @@ div#trips {
 h2.filter-title {
     text-align: center;
     margin: 0 0 10pt;
-    font-family: Montserrat, serif;
+    font-family: var(--pleasant-font-title);
     color: var(--pleasant-header-foreground);
 }
 

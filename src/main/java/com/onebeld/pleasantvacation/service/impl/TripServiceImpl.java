@@ -6,7 +6,7 @@ import com.onebeld.pleasantvacation.service.TripService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.util.Optional;
 
 public class TripServiceImpl implements TripService {
     private final TripRepository tripRepository;
@@ -18,5 +18,10 @@ public class TripServiceImpl implements TripService {
     @Override
     public Page<Trip> findAllTrips(Pageable pageable) {
         return tripRepository.findAll(pageable);
+    }
+
+    @Override
+    public Optional<Trip> findById(long id) {
+        return tripRepository.findById(id);
     }
 }

@@ -16,9 +16,4 @@ public class MainController {
     public String about() {
         return "about";
     }
-
-    @RequestMapping("/tours")
-    public String hub() {
-        return "tours";
-    }
 }

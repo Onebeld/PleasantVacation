@@ -15,7 +15,7 @@ main {
 h1.error-code {
     font-size: 126pt;
     font-weight: bold;
-    font-family: Montserrat, serif;
+    font-family: var(--pleasant-font-title);
     margin: 0;
     color: var(--pleasant-header-foreground);
 }

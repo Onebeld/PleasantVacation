@@ -44,17 +44,13 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDto mapToUserDto(User user) {
-        UserDto userDto = new UserDto();
-
-        userDto.setId(user.getId());
-        userDto.setSurname(user.getSurname());
-        userDto.setName(user.getName());
-        userDto.setPatronymic(user.getPatronymic());
-        userDto.setCity(user.getCity());
-        userDto.setCountry(user.getCountry());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-
-        return userDto;
+        return new UserDto(
+                user.getSurname(),
+                user.getName(),
+                user.getPatronymic(),
+                user.getCity(),
+                user.getCountry(),
+                user.getEmail(),
+                user.getPassword());
     }
 }

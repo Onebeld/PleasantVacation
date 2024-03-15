@@ -1,8 +1,6 @@
 package com.onebeld.pleasantvacation.dto;
 
 public class UserDto {
-    private long id;
-
     private String surname;
     private String name;
     private String patronymic;
@@ -11,12 +9,18 @@ public class UserDto {
     private String email;
     private String password;
 
-    public long getId() {
-        return id;
+    public UserDto() {
+
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public UserDto(String surname, String name, String patronymic, String city, String country, String email, String password) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.city = city;
+        this.country = country;
+        this.email = email;
+        this.password = password;
     }
 
     public String getSurname() {
