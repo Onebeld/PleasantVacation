@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    @Query(value = "SELECT * FROM reviews WHERE trip_id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM reviews WHERE trip_id = :id",
+            nativeQuery = true,
+            countQuery = "SELECT COUNT(*) FROM reviews WHERE trip_id = :id")
     Page<Review> findReviewsByTripId(@Param("id") long id, Pageable pageable);
 }

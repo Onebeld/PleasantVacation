@@ -1,0 +1,66 @@
+:root {
+    --trip-carousel-background: rgba(0, 0, 0, 0.6);
+    --trip-carousel-foreground: #fff;
+}
+
+div.row-container {
+    display: flex;
+}
+
+div.carousel-image-block {
+    position: relative;
+    background-color: var(--pleasant-main-background-color);
+    border: 1pt solid var(--pleasant-border-color);
+    border-radius: var(--pleasant-corner-radius);
+    overflow: hidden;
+    width: 650px;
+    height: 350px;
+}
+
+div.image-count-block {
+    position: absolute;
+    right: 15pt;
+    top: 15pt;
+    background-color: var(--trip-carousel-background);
+    color: var(--trip-carousel-foreground);
+    border-radius: var(--pleasant-corner-radius);
+    padding: 5pt;
+    font-size: 10pt;
+}
+
+div.carousel-block-images {
+    position: relative;
+}
+
+.carousel-image {
+    position: absolute;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.5s;
+}
+
+button.carousel-button {
+    position: absolute;
+    width: 40pt;
+    height: 40pt;
+    padding: 10pt;
+    border: none;
+    border-radius: 50%;
+    z-index: 10;
+    cursor: pointer;
+    background-color: var(--trip-carousel-background);
+}
+
+button.carousel-button.prev {
+    top: 45%;
+    left: 2%;
+}
+
+button.carousel-button.next {
+    top: 45%;
+    right: 2%;
+}
+
+span.material-symbols-rounded.carousel-button {
+    color: var(--trip-carousel-foreground);
+}

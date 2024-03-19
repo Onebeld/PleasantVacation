@@ -1,4 +1,4 @@
-const tripTemplate = `
+const TRIP_TEMPLATE = `
     <div class="trip">
         <div class="trip-image-block">
             <img class="trip-image" src="" alt="">
@@ -14,89 +14,88 @@ const tripTemplate = `
     </div>
 `;
 
+const MAX_PRICE = 999999;
+const MIN_PRICE = 0;
+const PRICE_GAP = 500;
+
 /* Slider */
 const rangeValue = document.querySelector(".slider-container .price-slider");
-const rangeInputValue = document.querySelectorAll(".range-input input");
+const rangeInputValues = document.querySelectorAll(".range-input input");
 
-// Set the price gap
-let priceGap = 500;
+let currentPage = 0;
 
-// Adding event listners to price input elements
+// Adding event listeners to price input elements
 const priceInputValue = document.querySelectorAll(".price-input input");
 
 for (let i = 0; i < priceInputValue.length; i++) {
     priceInputValue[i].addEventListener("input", e => {
-
         // Parse min and max values of the range input
-        let minp = parseInt(priceInputValue[0].value);
-        let maxp = parseInt(priceInputValue[1].value);
-        let diff = maxp - minp
+        let minPrice = parseInt(priceInputValue[0].value);
+        let maxPrice = parseInt(priceInputValue[1].value);
+        let diff = maxPrice - minPrice
 
-        if (minp < 0) {
-            alert("minimum price cannot be less than 0");
-            priceInputValue[0].value = 0;
-            minp = 0;
+        if (minPrice < MIN_PRICE) {
+            priceInputValue[0].value = MIN_PRICE;
+            minPrice = MIN_PRICE;
         }
 
         // Validate the input values
-        if (maxp > 10000) {
-            alert("maximum price cannot be greater than 10000");
-            priceInputValue[1].value = 10000;
-            maxp = 10000;
+        if (maxPrice > MAX_PRICE) {
+            priceInputValue[1].value = MAX_PRICE;
+            maxPrice = MAX_PRICE;
         }
 
-        if (minp > maxp - priceGap) {
-            priceInputValue[0].value = maxp - priceGap;
-            minp = maxp - priceGap;
+        if (minPrice > maxPrice - PRICE_GAP) {
+            priceInputValue[0].value = maxPrice - PRICE_GAP;
+            minPrice = maxPrice - PRICE_GAP;
 
-            if (minp < 0) {
-                priceInputValue[0].value = 0;
-                minp = 0;
+            if (minPrice < MIN_PRICE) {
+                priceInputValue[0].value = MIN_PRICE;
+                minPrice = MIN_PRICE;
             }
         }
 
         // Check if the price gap is met
         // and max price is within the range
-        if (diff >= priceGap && maxp <= rangeInputValue[1].max) {
+        if (diff >= PRICE_GAP && maxPrice <= rangeInputValues[1].max) {
             if (e.target.className === "min-input") {
-                rangeInputValue[0].value = minp;
-                let value1 = rangeInputValue[0].max;
-                rangeValue.style.left = `${(minp / value1) * 100}%`;
+                rangeInputValues[0].value = minPrice;
+                let value1 = rangeInputValues[0].max;
+                rangeValue.style.left = `${(minPrice / value1) * 100}%`;
             }
             else {
-                rangeInputValue[1].value = maxp;
-                let value2 = rangeInputValue[1].max;
-                rangeValue.style.right = `${100 - (maxp / value2) * 100}%`;
+                rangeInputValues[1].value = maxPrice;
+                let value2 = rangeInputValues[1].max;
+                rangeValue.style.right = `${100 - (maxPrice / value2) * 100}%`;
             }
         }
     });
 
     // Add event listeners to range input elements
-    for (let i = 0; i < rangeInputValue.length; i++) {
-        rangeInputValue[i].addEventListener("input", e => {
-            let minVal = parseInt(rangeInputValue[0].value);
-            let maxVal = parseInt(rangeInputValue[1].value);
+    for (const rangeInputValue of rangeInputValues) {
+        rangeInputValue.addEventListener("input", e => {
+            let minValue = parseInt(rangeInputValues[0].value);
+            let maxValue = parseInt(rangeInputValues[1].value);
 
-            let diff = maxVal - minVal
+            let diff = maxValue - minValue
 
             // Check if the price gap is exceeded
-            if (diff < priceGap) {
-
+            if (diff < PRICE_GAP) {
                 // Check if the input is the min range input
-                if (e.target.className === "min-range") {
-                    rangeInputValue[0].value = maxVal - priceGap;
-                }
-                else {
-                    rangeInputValue[1].value = minVal + priceGap;
-                }
+                if (e.target.className === "min-range")
+                    rangeInputValues[0].value = maxValue - PRICE_GAP;
+                else
+                    rangeInputValues[1].value = minValue + PRICE_GAP;
             }
             else {
-
                 // Update price inputs and range progress
-                priceInputValue[0].value = minVal;
-                priceInputValue[1].value = maxVal;
-                rangeValue.style.left = `${(minVal / rangeInputValue[0].max) * 100}%`;
-                rangeValue.style.right = `${100 - (maxVal / rangeInputValue[1].max) * 100}%`;
+                priceInputValue[0].value = minValue;
+                priceInputValue[1].value = maxValue;
+                rangeValue.style.left = `${(minValue / rangeInputValues[0].max) * 100}%`;
+                rangeValue.style.right = `${100 - (maxValue / rangeInputValues[1].max) * 100}%`;
+
+                console.log(`${(minValue / rangeInputValues[0].max) * 100}%`);
+                console.log(`${100 - (maxValue / rangeInputValues[1].max) * 100}%`);
             }
         });
     }
@@ -105,8 +104,6 @@ for (let i = 0; i < priceInputValue.length; i++) {
 Element.prototype.getFirstElementByClassName = function (className) {
     return this.getElementsByClassName(className)[0];
 };
-
-let currentPage = 0;
 
 function addThousandsSeparator(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -137,14 +134,18 @@ async function makeTripList() {
     console.log(trips);
 
     for (const trip of trips) {
-        const div = createElementFromHTML(tripTemplate);
+        const divTrip = createElementFromHTML(TRIP_TEMPLATE);
 
-        div.getFirstElementByClassName("trip-header").innerText = trip.name;
-        div.getFirstElementByClassName("trip-info-start").innerText = formatDate(trip.startDate);
-        div.getFirstElementByClassName("trip-info-end").innerText = formatDate(trip.endDate);
-        div.getFirstElementByClassName("trip-info-price").innerText = addThousandsSeparator(trip.price);
+        divTrip.getFirstElementByClassName("trip-header").innerText = trip.name;
+        divTrip.getFirstElementByClassName("trip-info-start").innerText = formatDate(trip.startDate);
+        divTrip.getFirstElementByClassName("trip-info-end").innerText = formatDate(trip.endDate);
+        divTrip.getFirstElementByClassName("trip-info-price").innerText = addThousandsSeparator(trip.price);
 
-        document.getElementById("trips").appendChild(div);
+        divTrip.addEventListener("click", () => {
+            window.location.href = window.location.origin + "/tours/" + trip.id;
+        });
+
+        document.getElementById("trips").appendChild(divTrip);
     }
 
     currentPage++;
@@ -152,8 +153,14 @@ async function makeTripList() {
 
 function clearTripList() {
     document.getElementById("trips").innerHTML = "";
+    currentPage = 0;
 }
 
 window.addEventListener("load", async () => {
     await makeTripList();
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+    rangeValue.style.left = `${(rangeInputValues[0].value / rangeInputValues[0].max) * 100}%`;
+    rangeValue.style.right = `${100 - (rangeInputValues[1].value / rangeInputValues[1].max) * 100}%`;
 });

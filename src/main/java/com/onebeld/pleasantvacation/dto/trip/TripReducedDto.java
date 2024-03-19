@@ -15,7 +15,6 @@ public class TripReducedDto {
     private Date endDate;
     @Positive
     private double price;
-    private boolean allInclusive;
 
     public TripReducedDto(Trip trip) {
         this.id = trip.getId();
@@ -25,10 +24,9 @@ public class TripReducedDto {
         this.startDate = trip.getStartDate();
         this.endDate = trip.getEndDate();
         this.price = trip.getPrice();
-        this.allInclusive = trip.isAllInclusive();
     }
 
-    public TripReducedDto(long id, String name, String city, String country, Date startDate, Date endDate, double price, boolean allInclusive) {
+    public TripReducedDto(long id, String name, String city, String country, Date startDate, Date endDate, double price) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -36,7 +34,6 @@ public class TripReducedDto {
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
-        this.allInclusive = allInclusive;
     }
 
     public long getId() {
@@ -93,13 +90,5 @@ public class TripReducedDto {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public boolean isAllInclusive() {
-        return allInclusive;
-    }
-
-    public void setAllInclusive(boolean allInclusive) {
-        this.allInclusive = allInclusive;
     }
 }

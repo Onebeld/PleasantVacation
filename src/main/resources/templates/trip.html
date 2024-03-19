@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
     <head>
         <meta charset="UTF-8">
-        <title>Pleasant Vacation</title>
+        <title>Pleasant Vacation | [[${trip.getName()}]]</title>
+        <link rel="stylesheet" th:href="@{/css/trip.css}">
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
     </head>
@@ -12,11 +13,35 @@
 
             <main>
                 <div class="container">
-                    <h1 th:text="${trip.getName()}"></h1>
+                    <div class="row-container">
+                        <div class="carousel-image-block">
+                            <div id="carousel-block-images">
+                                <img class="carousel-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                                <img class="carousel-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                                <img class="carousel-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                                <img class="carousel-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                            </div>
+
+                            <div class="image-count-block">
+                                1/10
+                            </div>
+
+                            <button class="carousel-button next">
+                                <span class="material-symbols-rounded carousel-button">arrow_forward</span>
+                            </button>
+                            <button class="carousel-button prev">
+                                <span class="material-symbols-rounded carousel-button">arrow_back</span>
+                            </button>
+                        </div>
+
+
+                    </div>
                 </div>
             </main>
 
             <th:block th:replace="~{fragments/footer :: footer}"></th:block>
         </div>
+
+        <script th:src="@{/js/trip.js}" th:inline="javascript"></script>
     </body>
 </html>

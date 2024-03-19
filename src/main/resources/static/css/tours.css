@@ -4,6 +4,7 @@ main {
 
 h3 {
     font-family: var(--pleasant-font-title);
+    color: var(--pleasant-header-foreground);
     font-size: 18pt;
     margin-top: 0;
     margin-bottom: 10pt;
@@ -27,6 +28,10 @@ div.trip {
     overflow: hidden;
     width: 325pt;
     height: 250pt;
+    transition: box-shadow 100ms linear 0s;
+}
+div.trip:hover {
+    box-shadow: 0 5pt 15pt rgba(0, 0, 0, 0.2);
 }
 
 div.trip-info {
@@ -65,7 +70,6 @@ div#trips {
     align-items: flex-start;
     align-content: flex-start;
     margin: 0 auto;
-    justify-content: center;
 }
 
 /* Filter */
@@ -92,8 +96,8 @@ h2.filter-title {
 
 .price-field span {
     margin-right: 10px;
-    margin-top: 6px;
-    font-size: 17px;
+    font-size: 12pt;
+    color: var(--pleasant-text-foreground);
 }
 
 .price-field input {
@@ -124,7 +128,7 @@ input::-webkit-inner-spin-button {
 }
 
 .slider-container {
-    height: 6px;
+    height: 5pt;
     position: relative;
     background: var(--pleasant-main-background-color);
     border-radius: 5px;
@@ -132,8 +136,6 @@ input::-webkit-inner-spin-button {
 
 .slider-container .price-slider {
     height: 100%;
-    left: 25%;
-    right: 15%;
     position: absolute;
     border-radius: 5px;
     background: var(--pleasant-header-foreground);
@@ -145,10 +147,11 @@ input::-webkit-inner-spin-button {
 
 .range-input input {
     position: absolute;
+    margin: 0;
     width: 100%;
-    height: 5px;
+    height: 5pt;
+    top: -5pt;
     background: none;
-    top: -6px;
     pointer-events: none;
     cursor: pointer;
     -webkit-appearance: none;
@@ -179,6 +182,7 @@ input[type="range"]::-webkit-slider-thumb {
 
     div#trips {
         justify-content: stretch;
+        margin: 0;
     }
 
     div.trip {
