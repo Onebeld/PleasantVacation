@@ -24,7 +24,7 @@ prevSlideButton.addEventListener("click", () => {
     }
 
     updateSlides();
-})
+});
 
 function addThousandsSeparator(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -38,4 +38,6 @@ function updateSlides() {
     });
 }
 
-updateSlides();
+document.addEventListener("DOMContentLoaded", () => {
+    updateSlides();
+});

@@ -3,7 +3,7 @@ main {
 }
 
 h3 {
-    font-family: var(--pleasant-font-title);
+    font-family: var(--pleasant-fontfamily-title);
     color: var(--pleasant-header-foreground);
     font-size: 18pt;
     margin-top: 0;
@@ -44,7 +44,7 @@ p.trip-info-text {
 }
 
 p.trip-info-text-price {
-    font-family: var(--pleasant-font-title);
+    font-family: var(--pleasant-fontfamily-title);
     font-weight: 500;
     font-size: 16pt;
     margin: 5pt 0 0;
@@ -76,7 +76,7 @@ div#trips {
 h2.filter-title {
     text-align: center;
     margin: 0 0 10pt;
-    font-family: var(--pleasant-font-title);
+    font-family: var(--pleasant-fontfamily-title);
     color: var(--pleasant-header-foreground);
 }
 

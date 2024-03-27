@@ -21,8 +21,8 @@
 
     --pleasant-text-secondary-foreground: rgba(0, 0, 0, 0.3);
 
-    --pleasant-font-title: Montserrat, serif;
-    --pleasant-font-text: Roboto, serif;
+    --pleasant-fontfamily-title: Montserrat, serif;
+    --pleasant-fontfamily-text: Roboto, serif;
 }
 
 * {
@@ -32,8 +32,9 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: var(--pleasant-font-text);
+    font-family: var(--pleasant-fontfamily-text);
     color: var(--pleasant-text-foreground);
+    background-color: var(--pleasant-main-background-color);
 }
 
 hr {
@@ -62,22 +63,17 @@ a:active {
 /* Body */
 header {
     height: 50pt;
-    padding: 0 25pt;
-    background-color: var(--pleasant-primary-background-color);
-    border-bottom: 1pt solid var(--pleasant-border-color);
+    padding: 10pt 30pt 0;
 }
 
 main {
-    padding: 10px;
-    background-color: var(--pleasant-main-background-color);
+    padding: 10pt;
     flex: 1 1 auto;
 }
 
 footer {
     padding: 10pt;
     padding-top: 20pt;
-    background-color: var(--pleasant-primary-background-color);
-    border-top: 1pt solid var(--pleasant-border-color);
 }
 
 .wrapper {
@@ -103,7 +99,7 @@ div.header_row {
 div.profile {
     width: 40px;
     height: 40px;
-    background-color: var(--pleasant-main-background-color);
+    background-color: var(--pleasant-primary-background-color);
     border-radius: 50%;
     border: 1pt solid var(--pleasant-border-color);
     display: flex;
@@ -114,31 +110,30 @@ div.profile {
 
 a.nav-button {
     text-decoration: none;
-    border: 1pt solid var(--pleasant-border-color);
     border-radius: var(--pleasant-rounded-corner-radius);
-    background-color: var(--pleasant-main-background-color);
     padding: 3pt 10pt;
-    color: black;
+    color: var(--pleasant-header-foreground);
+    font-size: 14pt;
+    font-family: var(--pleasant-fontfamily-title);
     margin: 0 3pt;
     width: 100pt;
     white-space: nowrap;
     text-align: center;
 }
 a.nav-button:hover {
-    background-color: var(--pleasant-main-hovered-background-color);
+    color: var(--pleasant-text-selected-foreground);
 }
 a.nav-button:active {
-    background-color: var(--pleasant-main-pressed-background-color);
+    color: var(--pleasant-text-active-foreground);
 }
 
 div.nav {
-    margin-left: auto;
     align-items: center;
     display: flex;
 }
 
 div.logo {
-    font-family: var(--pleasant-font-title);
+    font-family: var(--pleasant-fontfamily-title);
     font-weight: bold;
 }
 
@@ -209,7 +204,7 @@ h2.menu-title {
     margin: 0 0 10pt;
     font-size: 14pt;
     text-align: center;
-    font-family: var(--pleasant-font-title);
+    font-family: var(--pleasant-fontfamily-title);
     color: var(--pleasant-header-foreground);
 }
 
@@ -234,7 +229,7 @@ ul.footer-navigation-links {
 h3.footer-navigation-title {
     color: var(--pleasant-header-foreground);
     margin: 0 0 5pt;
-    font-family: var(--pleasant-font-title);
+    font-family: var(--pleasant-fontfamily-title);
     font-size: 12pt;
 }
 
