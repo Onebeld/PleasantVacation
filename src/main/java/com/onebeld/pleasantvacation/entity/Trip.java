@@ -1,5 +1,6 @@
 package com.onebeld.pleasantvacation.entity;
 
+import com.onebeld.pleasantvacation.dto.trip.TripDto;
 import com.onebeld.pleasantvacation.entity.enums.TripState;
 import jakarta.persistence.*;
 
@@ -42,7 +43,23 @@ public class Trip {
     @Enumerated(EnumType.ORDINAL)
     private TripState state;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     protected Trip() { }
+
+    // From TripDTO to Trip
+    public Trip(TripDto tripDto) {
+        this.name = tripDto.getName();
+        this.description = tripDto.getDescription();
+        this.city = tripDto.getCity();
+        this.country = tripDto.getCountry();
+        this.startDate = tripDto.getStartDate();
+        this.endDate = tripDto.getEndDate();
+        this.price = tripDto.getPrice();
+        this.allInclusive = tripDto.isAllInclusive();
+    }
 
     public Trip(String name, String description, String city, String country, Date startDate, Date endDate, double price, boolean allInclusive, TripState state) {
         this.name = name;
@@ -134,6 +151,14 @@ public class Trip {
 
     public void setState(TripState state) {
         this.state = state;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

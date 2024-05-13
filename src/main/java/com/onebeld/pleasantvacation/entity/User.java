@@ -1,16 +1,22 @@
 package com.onebeld.pleasantvacation.entity;
 
-import com.onebeld.pleasantvacation.entity.enums.Role;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "surname", nullable = false)
     private String surname;
@@ -21,9 +27,6 @@ public class User implements Serializable {
     @Column(name = "patronymic")
     private String patronymic;
 
-    @Column(name = "email", unique = true, nullable = false)
-    private String email;
-
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -33,17 +36,24 @@ public class User implements Serializable {
     @Column(name = "country", nullable = false)
     private String country;
 
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
     protected User() { }
 
-    public User(String surname, String name, String patronymic, String email, String password, String city, String country, Role role) {
+    public User(String username,
+                String surname,
+                String name,
+                String patronymic,
+                String password,
+                String city,
+                String country,
+                Role role) {
+        this.username = username;
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
-        this.email = email;
         this.password = password;
         this.city = city;
         this.country = country;
@@ -82,16 +92,42 @@ public class User implements Serializable {
         this.patronymic = patronymic;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(getRole());
     }
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -129,7 +165,6 @@ public class User implements Serializable {
                 ", surname='" + surname + '\'' +
                 ", name='" + name + '\'' +
                 ", patronymic='" + patronymic + '\'' +
-                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", city='" + city + '\'' +
                 ", country='" + country + '\'' +

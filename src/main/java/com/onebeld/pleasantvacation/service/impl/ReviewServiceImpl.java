@@ -5,7 +5,9 @@ import com.onebeld.pleasantvacation.repository.ReviewRepository;
 import com.onebeld.pleasantvacation.service.ReviewService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 

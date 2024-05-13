@@ -1,26 +1,36 @@
-package com.onebeld.pleasantvacation.dto;
+package com.onebeld.pleasantvacation.dto.user;
 
 public class UserDto {
+    private String username;
     private String surname;
     private String name;
     private String patronymic;
     private String city;
     private String country;
-    private String email;
     private String password;
+    private String role;
 
     public UserDto() {
 
     }
 
-    public UserDto(String surname, String name, String patronymic, String city, String country, String email, String password) {
+    public UserDto(String username, String surname, String name, String patronymic, String city, String country, String password, String role) {
+        this.username = username;
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
         this.city = city;
         this.country = country;
-        this.email = email;
         this.password = password;
+        this.role = role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getSurname() {
@@ -63,19 +73,19 @@ public class UserDto {
         this.country = country;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

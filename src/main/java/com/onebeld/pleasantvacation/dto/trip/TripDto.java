@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Positive;
 import java.sql.Date;
 
 public class TripDto {
-
     private long id;
 
     private String name;
@@ -18,6 +17,8 @@ public class TripDto {
     @Positive
     private double price;
     private boolean allInclusive;
+
+    public TripDto() {}
 
     public TripDto(Trip trip) {
         this.id = trip.getId();

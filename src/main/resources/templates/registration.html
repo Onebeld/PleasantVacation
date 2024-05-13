@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pleasant Vacation | Registration</title>
+
+        <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
+    </head>
+    <body>
+        <div class="wrapper">
+            <th:block th:replace="~{fragments/header :: header}"></th:block>
+
+            <main>
+                <div class="container">
+                    <div class="error">
+                        <span th:if="${param.error}">Invalid username and password.</span>
+                        <span th:if="${param.logout}">Logged out</span>
+                    </div>
+
+                    <form th:action="@{/registration}" method="post">
+                        <!-- RadioButton -->
+                        <div><label>User <input type="radio" name="role" value="USER"/> </label></div>
+                        <div><label>Tourmanager <input type="radio" name="role" value="TOURMANAGER"/> </label></div>
+
+                        <div><label>Surname: <input type="text" name="surname"/> </label></div>
+                        <div><label>Name: <input type="text" name="name"/> </label></div>
+                        <div><label>Patronymic: <input type="text" name="patronymic"/> </label></div>
+                        <div><label>City: <input type="text" name="city"/> </label></div>
+                        <div><label>Country: <input type="text" name="country"/> </label></div>
+                        <div><label>Username: <input type="text" name="username"/> </label></div>
+                        <div><label>Password: <input type="password" name="password"/> </label></div>
+
+                        <div><input type="submit" value="Sign Up"/></div>
+                    </form>
+                </div>
+            </main>
+
+            <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+        </div>
+    </body>
+</html>

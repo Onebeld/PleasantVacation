@@ -1,4 +1,4 @@
-package com.onebeld.pleasantvacation.config;
+package com.onebeld.pleasantvacation.configs;
 
 import com.onebeld.pleasantvacation.filters.RequestLimitFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

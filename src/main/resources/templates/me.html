@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pleasant Vacation</title>
+
+        <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
+        <link rel="stylesheet" th:href="@{/css/me.css}">
+    </head>
+    <body>
+        <div class="wrapper">
+            <th:block th:replace="~{fragments/header :: header}"></th:block>
+
+            <main>
+                <div class="container">
+                    <div class="profile-container">
+                        <div class="profile big">
+                            <span class="material-symbols-rounded md-96">
+                                person
+                            </span>
+                        </div>
+                        <h1 class="profile-name"><span th:text="${user.name}"></span> <span th:text="${user.surname}"></span> <span th:text="${user.patronymic}"></span></h1>
+
+                        <th:block sec:authorize="hasAuthority('USER')">
+                            <h3 class="profile-type">Пользователь</h3>
+                        </th:block>
+                        <th:block sec:authorize="hasAuthority('TOURMANAGER')">
+                            <h3 class="profile-type">Туроператор</h3>
+
+                            <a th:href="@{/tours/add}">Создать путевку</a>
+                        </th:block>
+
+                        <form th:action="@{/logout}" method="post">
+                            <input type="submit" class="logout-button" value="Выйти из системы"/>
+                        </form>
+                    </div>
+
+                    <div class="trips-container">
+                        <th:block sec:authorize="hasAuthority('USER')">
+                            <h1>Купленные путевки</h1>
+                        </th:block>
+                        <th:block sec:authorize="hasAuthority('TOURMANAGER')">
+                            <h1>Созданные путевки</h1>
+                        </th:block>
+
+                        <div id="trips">
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </main>
+
+            <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+            <th:block sec:authorize="hasAuthority('USER')">
+                <script th:src="@{/js/me/user.js}"></script>
+            </th:block>
+            <th:block sec:authorize="hasAuthority('TOURMANAGER')">
+                <script th:src="@{/js/me/tourmanager.js}"></script>
+            </th:block>
+        </div>
+    </body>
+</html>
