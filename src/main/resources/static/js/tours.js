@@ -87,6 +87,17 @@ Element.prototype.getFirstElementByClassName = function (className) {
     return this.getElementsByClassName(className)[0];
 };
 
+function formatInput(event) {
+    let value = event.target.value.replace(/,/g, '');
+
+    // Преобразование строки в число и обратно в строку с тысячными разделителями
+    if (!isNaN(value) && value !== '') {
+        event.target.value = Number(value).toLocaleString('en');
+    } else {
+        event.target.value = '';
+    }
+}
+
 window.addEventListener("load", async () => {
     await loadTrips("/api/tours")
 });
@@ -94,4 +105,20 @@ window.addEventListener("load", async () => {
 window.addEventListener("DOMContentLoaded", () => {
     rangeValue.style.left = `${(rangeInputValues[0].value / rangeInputValues[0].max) * 100}%`;
     rangeValue.style.right = `${100 - (rangeInputValues[1].value / rangeInputValues[1].max) * 100}%`;
+
+    priceInputValue[0].addEventListener("input", e => {
+        formatInput(e);
+    });
+    priceInputValue[1].addEventListener("input", e => {
+        formatInput(e);
+    })
+});
+
+document.querySelector(".filter-button").addEventListener("click", async () => {
+    const filter = {
+        minPrice: rangeInputValues[0].value,
+        maxPrice: rangeInputValues[1].value
+    };
+
+    await loadTrips("/api/tours", filter);
 });

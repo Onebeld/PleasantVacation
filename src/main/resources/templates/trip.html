@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-    <head th:idtrip="${trip.id}">
+    <head th:idtrip="${trip.id}" th:startDate="${trip.startDate}" th:endDate="${trip.endDate}">
         <meta charset="UTF-8">
         <title>Pleasant Vacation | [[${trip.getName()}]]</title>
         <link rel="stylesheet" th:href="@{/css/trip.css}">
@@ -14,6 +14,14 @@
 
             <main>
                 <div class="container">
+
+                    <th:block th:if="${param.isBought}">
+                        <div class="error-block">
+                            <p th:text="#{trip.thisTourIsBought}"></p>
+                        </div>
+                    </th:block>
+
+
                     <div class="row-container">
                         <div class="carousel-image-block">
                             <div id="carousel-block-images">
@@ -37,40 +45,77 @@
                         <div class="title-trip-container">
                             <h1 th:text="${trip.getName()}"></h1>
 
-                            <div>
-                                <p>Город: <span th:text="${trip.getCity()}"></span></p>
-                                <p>Страна: <span th:text="${trip.getCountry()}"></span></p>
-                            </div>
+                            <div class="trip-info">
+                                <h3 th:text="#{trip.mainInfo}"></h3>
+                                <div class="info">
+                                    <p><span th:text="#{registration.city}"></span>: <span th:text="${trip.city}"></span></p>
+                                    <p><span th:text="#{registration.country}"></span>: <span th:text="${trip.country}"></span></p>
 
-                            <th:block sec:authorize="hasAuthority('USER')">
-                                <form th:action="@{/tours/{id}/buy(id=${trip.id})}" method="post">
-                                    <input type="submit" class="buy-button" value="Купить"/>
-                                </form>
-                            </th:block>
+                                    <p class="date"><span th:text="#{trip.startDate}"></span>: <span id="startDate"></span></p>
+                                    <p><span th:text="#{trip.endDate}"></span>: <span id="endDate"></span></p>
+                                </div>
+
+                                <div class="filler"></div>
+
+                                <div class="trip-info-row">
+                                    <div class="all-inclusive-container">
+                                        <th:block th:if="${trip.isAllInclusive()}">
+                                            <div class="profile">
+                                                <span class="material-symbols-rounded md-24">
+                                                    check
+                                                </span>
+                                            </div>
+
+                                            <h3><span th:text="#{trip.allInclusive}"></span>!</h3>
+                                        </th:block>
+                                    </div>
+
+                                    <div class="price-block">
+                                        <p class="trip-price"><span id="price" th:text="${trip.price}"></span> RUB</p>
+
+                                        <th:block sec:authorize="hasAuthority('USER')">
+                                            <form th:action="@{/tours/{id}/buy(id=${trip.id})}" method="post">
+                                                <input type="submit" class="buy-button" th:value="#{trip.buy}"/>
+                                            </form>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="description-container">
-                    <h3>Описание</h3>
-                    <p th:text="${trip.getDescription()}"></p>
+                    <h3 th:text="#{trip.description}"></h3>
+
+                    <div class="trip-info">
+                        <p th:text="${trip.getDescription()}"></p>
+                    </div>
+
+                    <th:block sec:authorize="hasAuthority('USER')">
+                        <form th:action="@{/tours/{id}/reviews/add(id=${trip.id})}" class="review-form" method="post">
+                            <label>
+                                <textarea name="text" th:placeholder="#{trip.writeReview}"></textarea>
+                            </label>
+
+                            <input type="submit" th:value="#{trip.send}"/>
+                        </form>
+                    </th:block>
                 </div>
 
                 <div class="reviews-container">
-                    <h3>Отзывы</h3>
+                    <h3 th:text="#{trip.reviews}"></h3>
 
-                    <th:block sec:authorize="hasAuthority('USER')">
-                        <form th:action="@{/tours/{id}/reviews/add(id=${trip.id})}" method="post">
-                            <label>
-                                <textarea name="text" placeholder="Напишите отзыв"></textarea>
-                            </label>
+                    <div id="reviews"></div>
 
-                            <input type="submit" value="Отправить"/>
-                        </form>
-                    </th:block>
+                    <div id="reviews-buttons"></div>
 
-                    <div id="reviews">
+                    <div id="reviews-loader">
+                        <p th:text="#{tours.loading}"></p>
+                    </div>
 
+                    <div id="reviews-empty">
+                        <p th:text="#{tours.empty}"></p>
                     </div>
                 </div>
             </main>

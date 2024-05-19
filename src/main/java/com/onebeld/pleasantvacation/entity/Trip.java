@@ -2,7 +2,6 @@ package com.onebeld.pleasantvacation.entity;
 
 import com.onebeld.pleasantvacation.dto.trip.CreateTripDto;
 import com.onebeld.pleasantvacation.dto.trip.TripDto;
-import com.onebeld.pleasantvacation.entity.enums.TripState;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -40,10 +39,6 @@ public class Trip {
     @Column(name = "all_inclusive", nullable = false)
     private boolean allInclusive;
 
-    @Column(name = "state", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private TripState state;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -73,7 +68,7 @@ public class Trip {
         this.allInclusive = createTripDto.isAllInclusive();
     }
 
-    public Trip(String name, String description, String city, String country, Date startDate, Date endDate, double price, boolean allInclusive, TripState state) {
+    public Trip(String name, String description, String city, String country, Date startDate, Date endDate, double price, boolean allInclusive) {
         this.name = name;
         this.description = description;
         this.city = city;
@@ -82,7 +77,6 @@ public class Trip {
         this.endDate = endDate;
         this.price = price;
         this.allInclusive = allInclusive;
-        this.state = state;
     }
 
     public long getId() {
@@ -157,14 +151,6 @@ public class Trip {
         this.allInclusive = allInclusive;
     }
 
-    public TripState getState() {
-        return state;
-    }
-
-    public void setState(TripState state) {
-        this.state = state;
-    }
-
     public User getUser() {
         return user;
     }
@@ -185,7 +171,6 @@ public class Trip {
                 ", endDate=" + endDate +
                 ", price=" + price +
                 ", allInclusive=" + allInclusive +
-                ", state=" + state +
                 '}';
     }
 }

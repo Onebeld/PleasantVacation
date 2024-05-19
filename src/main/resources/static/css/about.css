@@ -1,0 +1,17 @@
+h2 {
+    text-align: center;
+    font-family: var(--pleasant-fontfamily-title);
+    color: var(--pleasant-header-foreground);
+    font-size: 18pt;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.6em;
+}
+
+ul li {
+    margin-bottom: 10px;
+    font-size: 18px;
+    line-height: 1.6em;
+}

@@ -2,17 +2,13 @@ package com.onebeld.pleasantvacation.controller;
 
 import com.onebeld.pleasantvacation.dto.review.ReviewDto;
 import com.onebeld.pleasantvacation.dto.review.ReviewSubmitDTO;
+import com.onebeld.pleasantvacation.dto.review.ReviewsDto;
 import com.onebeld.pleasantvacation.dto.trip.CreateTripDto;
 import com.onebeld.pleasantvacation.dto.trip.TripDto;
 import com.onebeld.pleasantvacation.dto.trip.TripReducedDto;
 import com.onebeld.pleasantvacation.dto.trip.TripsDto;
 import com.onebeld.pleasantvacation.entity.*;
-import com.onebeld.pleasantvacation.entity.enums.TicketState;
-import com.onebeld.pleasantvacation.entity.enums.TripState;
-import com.onebeld.pleasantvacation.repository.ImageRepository;
-import com.onebeld.pleasantvacation.repository.TicketRepository;
-import com.onebeld.pleasantvacation.repository.TripRepository;
-import com.onebeld.pleasantvacation.repository.UserRepository;
+import com.onebeld.pleasantvacation.repository.*;
 import com.onebeld.pleasantvacation.service.impl.FileStorageServiceImpl;
 import com.onebeld.pleasantvacation.service.impl.ReviewServiceImpl;
 import com.onebeld.pleasantvacation.service.impl.TripServiceImpl;
@@ -29,6 +25,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -39,10 +37,11 @@ import java.util.Optional;
 public class ToursController {
     private final TripServiceImpl tripService;
     private final UserServiceImpl userService;
+    private final ReviewServiceImpl reviewService;
 
     private final TicketRepository ticketRepository;
-    private final ReviewServiceImpl reviewService;
     private final ImageRepository imageRepository;
+    private final ExchangeRateRepository exchangeRateRepository;
 
     /**
      * Создает экземпляр контроллера
@@ -54,12 +53,14 @@ public class ToursController {
                     ReviewServiceImpl reviewService,
                     UserRepository userRepository,
                     FileStorageServiceImpl fileStorageServiceImpl,
-                    ImageRepository imageRepository) {
-        this.tripService = new TripServiceImpl(tripRepository, userRepository, ticketRepository, fileStorageServiceImpl, imageRepository);
+                    ImageRepository imageRepository,
+                    ExchangeRateRepository exchangeRateRepository) {
+        this.tripService = new TripServiceImpl(tripRepository, userRepository, ticketRepository, fileStorageServiceImpl, imageRepository, exchangeRateRepository);
         this.userService = userService;
         this.ticketRepository = ticketRepository;
         this.reviewService = reviewService;
         this.imageRepository = imageRepository;
+        this.exchangeRateRepository = exchangeRateRepository;
     }
 
     @RequestMapping("/tours")
@@ -73,6 +74,7 @@ public class ToursController {
 
         if (trip.isPresent()) {
             TripDto tripDto = new TripDto(trip.get());
+            tripDto.setPrice(convertCurrency(trip.get().getPrice()));
 
             List<Image> images = imageRepository.findAllByTrip(trip.get());
             tripDto.setImageUrls(images.stream().map(Image::getUrl).toList());
@@ -100,10 +102,10 @@ public class ToursController {
         if (ticketRepository.existsTicketByUserAndTrip(user.get(), trip.get()))
         {
             model.addAttribute("tripIsAlreadyOrdered", true);
-            return "redirect:/tours/" + id;
+            return "redirect:/tours/" + id + "?isBought=true";
         }
 
-        ticketRepository.save(new Ticket(user.get(), trip.get(), TicketState.PENDING));
+        ticketRepository.save(new Ticket(user.get(), trip.get()));
 
         return "redirect:/thanks_for_buying";
     }
@@ -158,7 +160,6 @@ public class ToursController {
 
         Trip trip = new Trip(tripDto);
         trip.setUser(userDto.get());
-        trip.setState(TripState.ACTIVE);
 
         tripService.saveTrip(trip, tripDto.getImages());
 
@@ -167,16 +168,25 @@ public class ToursController {
 
     @GetMapping("/api/tours/{id}/reviews")
     @ResponseBody
-    ResponseEntity<List<ReviewDto>> getReviews(@PathVariable long id, @RequestParam int page, @RequestParam int elementsInPage) {
+    ResponseEntity<ReviewsDto> getReviews(@PathVariable long id, @RequestParam int page, @RequestParam int elementsInPage) {
         List<ReviewDto> reviews = new ArrayList<>();
 
+        ReviewsDto reviewsDto = new ReviewsDto();
+        reviewsDto.setCurrentPage(page);
+        reviewsDto.setElementsOnPage(elementsInPage);
+
         Page<Review> reviewsPage = reviewService.findReviewsByTripId(id, PageRequest.of(page, elementsInPage));
+
+        reviewsDto.setTotalElements(reviewsPage.getTotalElements());
+        reviewsDto.setTotalPages(reviewsPage.getTotalPages());
 
         for (Review review : reviewsPage) {
             reviews.add(new ReviewDto(review));
         }
 
-        return new ResponseEntity<>(reviews, HttpStatus.OK);
+        reviewsDto.setReviews(reviews);
+
+        return new ResponseEntity<>(reviewsDto, HttpStatus.OK);
     }
 
     @GetMapping("/api/tours/{id}")
@@ -185,6 +195,9 @@ public class ToursController {
         Optional<Trip> trip = tripService.findById(Long.parseLong(id));
 
         if (trip.isPresent()) {
+            TripDto tripDto = new TripDto(trip.get());
+            tripDto.setPrice(convertCurrency(trip.get().getPrice()));
+
             return new ResponseEntity<>(new TripDto(trip.get()), HttpStatus.OK);
         }
 
@@ -199,10 +212,18 @@ public class ToursController {
      */
     @GetMapping("/api/tours")
     @ResponseBody
-    TripsDto getAllTrips(@RequestParam int page, @RequestParam int elementsInPage) {
+    TripsDto getAllTrips(@RequestParam int page,
+                         @RequestParam int elementsInPage,
+                         @RequestParam(required = false, defaultValue = "0") Long minPrice,
+                         @RequestParam(required = false, defaultValue = "0") Long maxPrice) {
         List<TripReducedDto> trips = new ArrayList<>();
 
-        Page<Trip> tripsPage = tripService.findAllTrips(PageRequest.of(page, elementsInPage));
+        Page<Trip> tripsPage;
+
+        if (minPrice != 0 && maxPrice != 0)
+            tripsPage = tripService.findAllTripsByPrice(minPrice, maxPrice, PageRequest.of(page, elementsInPage));
+        else
+            tripsPage = tripService.findAllTrips(PageRequest.of(page, elementsInPage));
 
         return getTripsDto(page, elementsInPage, tripsPage, trips);
     }
@@ -240,11 +261,21 @@ public class ToursController {
         for (Trip trip : tripsPage) {
             TripReducedDto tripReducedDto = new TripReducedDto(trip);
             tripReducedDto.setImage(imageRepository.findAllByTrip(trip).getFirst().getUrl());
+            tripReducedDto.setPrice(convertCurrency(trip.getPrice()));
 
             trips.add(tripReducedDto);
         }
 
         tripsDto.setTrips(trips);
         return tripsDto;
+    }
+
+    private double convertCurrency(double price) {
+        double value = price * exchangeRateRepository.findByCurrency("RUB").getRate();
+
+        BigDecimal bigDecimal = new BigDecimal(value);
+        bigDecimal = bigDecimal.setScale(2, RoundingMode.HALF_UP);
+
+        return bigDecimal.doubleValue();
     }
 }

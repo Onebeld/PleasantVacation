@@ -1,6 +1,5 @@
 package com.onebeld.pleasantvacation.entity;
 
-import com.onebeld.pleasantvacation.entity.enums.TicketState;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,16 +17,11 @@ public class Ticket {
     @JoinColumn(name = "trip_id", referencedColumnName = "id")
     private Trip trip;
 
-    @Column(name = "state", nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private TicketState state;
-
     protected Ticket() {}
 
-    public Ticket(User user, Trip trip, TicketState state) {
+    public Ticket(User user, Trip trip) {
         this.user = user;
         this.trip = trip;
-        this.state = state;
     }
 
     public long getId() {
@@ -54,21 +48,12 @@ public class Ticket {
         this.trip = trip;
     }
 
-    public TicketState getState() {
-        return state;
-    }
-
-    public void setState(TicketState state) {
-        this.state = state;
-    }
-
     @Override
     public String toString() {
         return "Ticket{" +
                 "id=" + id +
                 ", user_id=" + user.getId() +
                 ", trip_id=" + trip.getId() +
-                ", state=" + state +
                 '}';
     }
 }

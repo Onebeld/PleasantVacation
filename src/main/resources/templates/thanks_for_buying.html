@@ -6,6 +6,7 @@
         <link rel="stylesheet" th:href="@{/css/tours.css}">
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
+        <link rel="stylesheet" th:href="@{/css/thanks-for-buying.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -15,7 +16,7 @@
                 <div class="container">
                     <h1 th:text="#{tours.thanksForBuying}"></h1>
 
-                    <a th:href="@{/tours}" th:text="#{tours.backToTours}"></a>
+                    <a class="button" th:href="@{/tours}" th:text="#{tours.backToTours}"></a>
                 </div>
             </main>
 

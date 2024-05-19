@@ -16,6 +16,8 @@ public interface TripService {
 
     Page<Trip> findAllTrips(Pageable pageable);
 
+    Page<Trip> findAllTripsByPrice(long minPrice, long maxPrice, Pageable pageable);
+
     Page<Trip> findAllPurchasedTripsByUsername(String username, Pageable pageable);
 
     Page<Trip> findTripsByUsername(String username, Pageable pageable);

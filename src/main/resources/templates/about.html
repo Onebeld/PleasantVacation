@@ -5,6 +5,7 @@
         <title>Pleasant Vacation | [[#{head.title.about}]]</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
+        <link rel="stylesheet" th:href="@{/css/about.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -12,7 +13,20 @@
 
             <main>
                 <div class="container">
+                    <h2 th:text="#{head.title.about}"></h2>
 
+                    <p th:text="#{about.description1}"></p>
+
+                    <p th:text="#{about.description2}"></p>
+
+                    <ul>
+                        <li th:text="#{about.description3}"></li>
+                        <li th:text="#{about.description4}"></li>
+                        <li th:text="#{about.description5}"></li>
+                        <li th:text="#{about.description6}"></li>
+                    </ul>
+
+                    <p th:text="#{about.description7}"></p>
                 </div>
             </main>
 

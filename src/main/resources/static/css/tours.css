@@ -29,6 +29,27 @@ h2.filter-title {
     color: var(--pleasant-header-foreground);
 }
 
+.filter-button {
+    width: 100%;
+    margin-top: 20pt;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: var(--pleasant-rounded-corner-radius);
+    text-align: center;
+    border: 1pt solid var(--pleasant-border-color);
+    background: var(--pleasant-header-foreground);
+    color: var(--pleasant-main-background-color);
+    font-family: var(--pleasant-fontfamily-title);
+    font-weight: bold;
+    cursor: pointer;
+}
+.filter-button:hover {
+    background: var(--pleasant-header-foreground-hover);
+}
+.filter-button:active {
+    background: var(--pleasant-header-foreground-pressed);
+}
+
 /* Slider */
 .price-input-container {
     width: 100%;

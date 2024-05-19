@@ -4,16 +4,15 @@ import com.onebeld.pleasantvacation.entity.Image;
 import com.onebeld.pleasantvacation.entity.Ticket;
 import com.onebeld.pleasantvacation.entity.Trip;
 import com.onebeld.pleasantvacation.entity.User;
-import com.onebeld.pleasantvacation.repository.ImageRepository;
-import com.onebeld.pleasantvacation.repository.TicketRepository;
-import com.onebeld.pleasantvacation.repository.TripRepository;
-import com.onebeld.pleasantvacation.repository.UserRepository;
+import com.onebeld.pleasantvacation.repository.*;
 import com.onebeld.pleasantvacation.service.TripService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,13 +23,15 @@ public class TripServiceImpl implements TripService {
     private final TicketRepository ticketRepository;
     private final FileStorageServiceImpl fileStorageServiceImpl;
     private final ImageRepository imageRepository;
+    private final ExchangeRateRepository exchangeRateRepository;
 
-    public TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, TicketRepository ticketRepository, FileStorageServiceImpl fileStorageServiceImpl, ImageRepository imageRepository) {
+    public TripServiceImpl(TripRepository tripRepository, UserRepository userRepository, TicketRepository ticketRepository, FileStorageServiceImpl fileStorageServiceImpl, ImageRepository imageRepository, ExchangeRateRepository exchangeRateRepository) {
         this.tripRepository = tripRepository;
         this.userRepository = userRepository;
         this.ticketRepository = ticketRepository;
         this.fileStorageServiceImpl = fileStorageServiceImpl;
         this.imageRepository = imageRepository;
+        this.exchangeRateRepository = exchangeRateRepository;
     }
 
     @Override
@@ -61,6 +62,14 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public Page<Trip> findAllTripsByPrice(long minPrice, long maxPrice, Pageable pageable) {
+        double convertedMinPrice = convertCurrency(minPrice);
+        double convertedMaxPrice = convertCurrency(maxPrice);
+
+        return tripRepository.findAllByPriceRange(convertedMinPrice, convertedMaxPrice, pageable);
+    }
+
+    @Override
     public Page<Trip> findAllPurchasedTripsByUsername(String username, Pageable pageable) {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found with username " + username));
 
@@ -78,5 +87,14 @@ public class TripServiceImpl implements TripService {
     @Override
     public Optional<Trip> findById(long id) {
         return tripRepository.findById(id);
+    }
+
+    private double convertCurrency(long price) {
+        double value = price / exchangeRateRepository.findByCurrency("RUB").getRate();
+
+        BigDecimal bigDecimal = new BigDecimal(value);
+        bigDecimal = bigDecimal.setScale(2, RoundingMode.HALF_UP);
+
+        return bigDecimal.doubleValue();
     }
 }

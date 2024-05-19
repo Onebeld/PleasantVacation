@@ -16,11 +16,12 @@ const TRIP_TEMPLATE = `
 
 let url;
 
-const elementsInPage = 4;
+const elementsInPage = 9;
 
 const tripsDiv = document.getElementById("trips");
 const tripsButtonsDiv = document.getElementById("trips-buttons");
 const tripsContainer = document.getElementById("trips-container");
+const tripsNoElements = document.getElementById("trips-empty");
 
 const tripsCount = document.getElementById("trips-count");
 const tripsTotal = document.getElementById("trips-total");
@@ -34,13 +35,19 @@ function addThousandsSeparator(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
-async function getTripsDto(stringUrl, page = 0, elementsInPage = 10) {
+async function getTripsDto(stringUrl, page = 0, elementsInPage = 10, filter = null) {
     let trips;
 
     const url = new URL(window.location.origin + stringUrl);
 
     url.searchParams.append("page", page);
     url.searchParams.append("elementsInPage", elementsInPage);
+
+    if (filter) {
+        for (const [key, value] of Object.entries(filter)) {
+            url.searchParams.append(key, value);
+        }
+    }
 
     await fetch(url)
         .then(result => result.json())
@@ -93,12 +100,17 @@ function createButtons(tripsDto) {
 
             loadTripsButton(i, elementsInPage);
 
-            window.scrollTo(0, 0);
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
         });
         tripsButtonsDiv.appendChild(button);
     }
 
-    tripsButtonsDiv.children[0].classList.add("active");
+    if (tripsButtonsDiv.children.length > 0)
+        tripsButtonsDiv.children[0].classList.add("active");
 }
 
 async function loadTripsButton(page, elementsInPage) {
@@ -113,18 +125,22 @@ async function loadTripsButton(page, elementsInPage) {
     tripsContainer.classList.remove("loading");
 }
 
-async function loadTrips(tripsUrl) {
+async function loadTrips(tripsUrl, filter = null) {
     url = tripsUrl;
 
     tripsContainer.classList.add("loading");
 
-    const tripsDto = await getTripsDto(url, 0, elementsInPage);
+    const tripsDto = await getTripsDto(url, 0, elementsInPage, filter);
 
     await makeTrips(tripsDto.trips, tripsDiv);
     createButtons(tripsDto);
 
     tripsCount.innerText = tripsDto.trips.length;
     tripsTotal.innerText = tripsDto.totalElements;
+
+    if (tripsDto.trips.length === 0)
+        tripsNoElements.classList.add("show");
+    else tripsNoElements.classList.remove("show");
 
     tripsContainer.classList.remove("loading");
 }
