@@ -1,15 +1,14 @@
-package com.onebeld.pleasantvacation.dto;
+package com.onebeld.pleasantvacation.dto.review;
 
 import com.onebeld.pleasantvacation.entity.Review;
+import com.onebeld.pleasantvacation.entity.User;
 
 import java.sql.Timestamp;
 
 public class ReviewDto {
     private long id;
 
-    private String firstName;
-
-    private String lastName;
+    private User user;
 
     private Timestamp date;
 
@@ -19,17 +18,15 @@ public class ReviewDto {
 
     public ReviewDto(Review review) {
         this.id = review.getId();
-        this.firstName = review.getUser().getName();
-        this.lastName = review.getUser().getSurname();
+        this.user = review.getUser();
         this.date = review.getDate();
         this.text = review.getText();
         this.rating = review.getRating();
     }
 
-    public ReviewDto(long id, String firstName, String lastName, Timestamp date, String text, short rating) {
+    public ReviewDto(long id, User user, Timestamp date, String text, short rating) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.user = user;
         this.date = date;
         this.text = text;
         this.rating = rating;
@@ -43,20 +40,12 @@ public class ReviewDto {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public User getUser() {
+        return user;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Timestamp getDate() {

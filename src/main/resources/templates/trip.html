@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
-    <head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:idtrip="${trip.id}">
         <meta charset="UTF-8">
         <title>Pleasant Vacation | [[${trip.getName()}]]</title>
         <link rel="stylesheet" th:href="@{/css/trip.css}">
@@ -16,10 +17,9 @@
                     <div class="row-container">
                         <div class="carousel-image-block">
                             <div id="carousel-block-images">
-                                <img class="carousel-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
-                                <img class="carousel-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
-                                <img class="carousel-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
-                                <img class="carousel-image" src="https://www.exoticca.com/uk/magazine/wp-content/uploads/2021/06/matterhorn-BLOG-mountains.png" alt="">
+                                <th:block th:each="image : ${trip.imageUrls}">
+                                    <img class="carousel-image" th:src="${image}" alt="">
+                                </th:block>
                             </div>
 
                             <div class="image-count-block">
@@ -37,17 +37,40 @@
                         <div class="title-trip-container">
                             <h1 th:text="${trip.getName()}"></h1>
 
-                            <div></div>
+                            <div>
+                                <p>Город: <span th:text="${trip.getCity()}"></span></p>
+                                <p>Страна: <span th:text="${trip.getCountry()}"></span></p>
+                            </div>
+
+                            <th:block sec:authorize="hasAuthority('USER')">
+                                <form th:action="@{/tours/{id}/buy(id=${trip.id})}" method="post">
+                                    <input type="submit" class="buy-button" value="Купить"/>
+                                </form>
+                            </th:block>
                         </div>
+                    </div>
+                </div>
 
+                <div class="description-container">
+                    <h3>Описание</h3>
+                    <p th:text="${trip.getDescription()}"></p>
+                </div>
 
-                        <div class="description-container">
+                <div class="reviews-container">
+                    <h3>Отзывы</h3>
 
-                        </div>
+                    <th:block sec:authorize="hasAuthority('USER')">
+                        <form th:action="@{/tours/{id}/reviews/add(id=${trip.id})}" method="post">
+                            <label>
+                                <textarea name="text" placeholder="Напишите отзыв"></textarea>
+                            </label>
 
-                        <div class="reviews-container">
+                            <input type="submit" value="Отправить"/>
+                        </form>
+                    </th:block>
 
-                        </div>
+                    <div id="reviews">
+
                     </div>
                 </div>
             </main>

@@ -117,7 +117,7 @@ function formatDate(dateString) {
 async function getTrips(page = 0) {
     let trips;
 
-    const url = new URL(window.location.origin + "/api/trips");
+    const url = new URL(window.location.origin + "/api/tours");
 
     url.searchParams.append("page", page);
     url.searchParams.append("elementsInPage", 10);

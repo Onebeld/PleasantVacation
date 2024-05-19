@@ -2,11 +2,15 @@
     --pleasant-corner-radius: 8pt;
     --pleasant-rounded-corner-radius: 20pt;
 
-    --pleasant-primary-background-color: #C9E4DC;
+    --pleasant-error-background-color: #f8d7da;
+    --pleasant-error-border-color: #f5c6cb;
+    --pleasant-error-foreground-color: #721c24;
+
+    --pleasant-primary-background-color: #d2eae3;
 
     --pleasant-main-background-color: #DAECE7;
     --pleasant-main-hovered-background-color: #D3E6E0;
-    --pleasant-main-pressed-background-color: #CEE0DB;
+    --pleasant-main-pressed-background-color: #c1e1d8;
 
     --pleasant-menu-hovered-color: #bce1d7;
     --pleasant-menu-pressed-color: #a9d0c5;
@@ -125,6 +129,24 @@ a.nav-button:hover {
 }
 a.nav-button:active {
     color: var(--pleasant-text-active-foreground);
+}
+
+input[type="submit"] {
+    background-color: var(--pleasant-main-background-color);
+    border-radius: var(--pleasant-rounded-corner-radius);
+    border: 1pt solid var(--pleasant-border-color);
+    padding: 3pt 10pt;
+    font-size: 14px;
+    white-space: nowrap;
+    text-align: center;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: var(--pleasant-main-hovered-background-color);
+}
+input[type="submit"]:active {
+    background-color: var(--pleasant-main-pressed-background-color);
 }
 
 div.nav {
@@ -247,6 +269,74 @@ p.footer-copyright {
 
 img#onebeld {
     width: 150pt;
+}
+
+input[type="text"], input[type="password"] {
+    height: 35px;
+    font-size: 15px;
+    border-radius: 90px;
+    padding: 10px 15px;
+    border: 1pt solid var(--pleasant-border-color);
+    background: var(--pleasant-main-background-color);
+}
+
+div.trip {
+    background-color: var(--pleasant-primary-background-color);
+    border: 1pt solid var(--pleasant-border-color);
+    border-radius: var(--pleasant-corner-radius);
+    overflow: hidden;
+    width: 325pt;
+    height: 250pt;
+    transition: box-shadow 100ms linear 0s;
+}
+div.trip:hover {
+    box-shadow: 0 5pt 15pt rgba(0, 0, 0, 0.2);
+}
+
+.trip-header {
+    font-family: var(--pleasant-fontfamily-title);
+    color: var(--pleasant-header-foreground);
+    font-size: 18pt;
+    margin-top: 0;
+    margin-bottom: 10pt;
+}
+
+div.trip-info {
+    padding: 10pt;
+}
+
+p.trip-info-text {
+    margin: 0;
+    font-size: 10pt;
+}
+
+p.trip-info-text-price {
+    font-family: var(--pleasant-fontfamily-title);
+    font-weight: 500;
+    font-size: 16pt;
+    margin: 5pt 0 0;
+}
+
+div.trip-image-block {
+    background-color: var(--pleasant-main-background-color);
+    border-bottom: 1pt solid var(--pleasant-border-color);
+    height: 150pt;
+    overflow: hidden;
+}
+
+img.trip-image {
+    width: 100%;
+    object-fit: cover;
+}
+
+div#trips {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 5pt;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin: 0 auto;
 }
 
 /* Icons Sizes */

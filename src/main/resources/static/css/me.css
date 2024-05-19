@@ -7,6 +7,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: var(--pleasant-primary-background-color);
+    border-radius: var(--pleasant-corner-radius);
+    border: 1pt solid var(--pleasant-border-color);
+    padding: 10px;
 }
 
 div.profile.big {
@@ -17,6 +21,7 @@ div.profile.big {
 .trips-container {
     display: flex;
     flex: 1;
+    flex-direction: column;
 }
 
 .profile-name {
@@ -30,4 +35,8 @@ div.profile.big {
 
 .logout-button {
     margin-top: 50px;
+    background-color: var(--pleasant-error-background-color);
+    border: 1pt solid var(--pleasant-error-border-color);
+    padding: 10px;
+    color: var(--pleasant-error-foreground-color);
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Pleasant Vacation | [[#{tours.thanksForBuying}]]</title>
+        <link rel="stylesheet" th:href="@{/css/tours.css}">
+
+        <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
+    </head>
+    <body>
+        <div class="wrapper">
+            <th:block th:replace="~{fragments/header :: header}"></th:block>
+
+            <main>
+                <div class="container">
+                    <h1 th:text="#{tours.thanksForBuying}"></h1>
+
+                    <a th:href="@{/tours}" th:text="#{tours.backToTours}"></a>
+                </div>
+            </main>
+
+            <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+        </div>
+    </body>
+</html>

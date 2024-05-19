@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
     <head>
         <meta charset="UTF-8">
-        <title>Pleasant Vacation | Registration</title>
+        <title>Pleasant Vacation | [[#{login.registration}]]</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
+        <link rel="stylesheet" th:href="@{/css/registration.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -12,26 +13,42 @@
 
             <main>
                 <div class="container">
-                    <div class="error">
-                        <span th:if="${param.error}">Invalid username and password.</span>
-                        <span th:if="${param.logout}">Logged out</span>
+
+                    <div class="registration-form">
+                        <h2 th:text="#{login.registration}"></h2>
+
+                        <form th:action="@{/registration}" method="post">
+                            <!-- RadioButton -->
+                            <div class="buttons">
+                                <div class="button">
+                                    <input type="radio" name="role" id="user" value="USER" checked/>
+                                    <label class="user-label" for="user" th:text="#{account.user}"></label>
+                                </div>
+                                <div class="button">
+                                    <input type="radio" name="role" id="tourmanager" value="TOURMANAGER"/>
+                                    <label class="tourmanager-label" for="tourmanager" th:text="#{account.tourmanager}"></label>
+                                </div>
+                            </div>
+
+                            <label for="username" th:text="#{login.username}"></label>
+                            <input type="text" id="username" name="username" required/>
+                            <label for="password" th:text="#{login.password}"></label>
+                            <input type="password" id="password" name="password" required/>
+
+                            <label id="surname-label" for="surname" th:text="#{registration.surname}"></label>
+                            <input type="text" id="surname" name="surname" required/>
+                            <label for="name" th:text="#{registration.name}"></label>
+                            <input type="text" id="name" name="name" required/>
+                            <label for="patronymic" th:text="#{registration.patronymic}"></label>
+                            <input type="text" id="patronymic" name="patronymic" required/>
+                            <label for="city" th:text="#{registration.city}"></label>
+                            <input type="text" id="city" name="city" required/>
+                            <label for="country" th:text="#{registration.country}"></label>
+                            <input type="text" id="country" name="country" required/>
+
+                            <input type="submit" th:value="#{registration.signUp}" />
+                        </form>
                     </div>
-
-                    <form th:action="@{/registration}" method="post">
-                        <!-- RadioButton -->
-                        <div><label>User <input type="radio" name="role" value="USER"/> </label></div>
-                        <div><label>Tourmanager <input type="radio" name="role" value="TOURMANAGER"/> </label></div>
-
-                        <div><label>Surname: <input type="text" name="surname"/> </label></div>
-                        <div><label>Name: <input type="text" name="name"/> </label></div>
-                        <div><label>Patronymic: <input type="text" name="patronymic"/> </label></div>
-                        <div><label>City: <input type="text" name="city"/> </label></div>
-                        <div><label>Country: <input type="text" name="country"/> </label></div>
-                        <div><label>Username: <input type="text" name="username"/> </label></div>
-                        <div><label>Password: <input type="password" name="password"/> </label></div>
-
-                        <div><input type="submit" value="Sign Up"/></div>
-                    </form>
                 </div>
             </main>
 

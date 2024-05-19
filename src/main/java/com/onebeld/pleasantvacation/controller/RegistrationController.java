@@ -3,6 +3,7 @@ package com.onebeld.pleasantvacation.controller;
 import com.onebeld.pleasantvacation.dto.user.UserDto;
 import com.onebeld.pleasantvacation.service.impl.UserServiceImpl;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+@PreAuthorize("!isAuthenticated()")
 @Controller
 public class RegistrationController {
     private final UserServiceImpl userService;

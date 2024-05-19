@@ -1,5 +1,6 @@
 package com.onebeld.pleasantvacation.entity;
 
+import com.onebeld.pleasantvacation.dto.review.ReviewDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -13,11 +14,11 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "trip_id", referencedColumnName = "id")
     private Trip trip;
 
@@ -32,7 +33,15 @@ public class Review {
     @Max(5)
     private short rating;
 
-    protected Review() {}
+    public Review() {}
+
+    // From ReviewDto
+    public Review(ReviewDto reviewDto) {
+        this.user = reviewDto.getUser();
+        this.date = reviewDto.getDate();
+        this.text = reviewDto.getText();
+        this.rating = reviewDto.getRating();
+    }
 
     public Review(User user, Trip trip, Timestamp date, String text, short rating) {
         this.user = user;

@@ -1,5 +1,6 @@
 package com.onebeld.pleasantvacation.entity;
 
+import com.onebeld.pleasantvacation.dto.trip.CreateTripDto;
 import com.onebeld.pleasantvacation.dto.trip.TripDto;
 import com.onebeld.pleasantvacation.entity.enums.TripState;
 import jakarta.persistence.*;
@@ -59,6 +60,17 @@ public class Trip {
         this.endDate = tripDto.getEndDate();
         this.price = tripDto.getPrice();
         this.allInclusive = tripDto.isAllInclusive();
+    }
+
+    public Trip(CreateTripDto createTripDto) {
+        this.name = createTripDto.getName();
+        this.description = createTripDto.getDescription();
+        this.city = createTripDto.getCity();
+        this.country = createTripDto.getCountry();
+        this.startDate = createTripDto.getStartDate();
+        this.endDate = createTripDto.getEndDate();
+        this.price = createTripDto.getPrice();
+        this.allInclusive = createTripDto.isAllInclusive();
     }
 
     public Trip(String name, String description, String city, String country, Date startDate, Date endDate, double price, boolean allInclusive, TripState state) {

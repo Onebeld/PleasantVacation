@@ -1,0 +1,91 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    text-align: center;
+    font-family: var(--pleasant-fontfamily-title);
+    color: var(--pleasant-header-foreground);
+}
+
+#surname-label {
+    margin-top: 30px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.registration-form {
+    background-color: var(--pleasant-primary-background-color);
+    border-radius: var(--pleasant-corner-radius);
+    border: 1pt solid var(--pleasant-border-color);
+    padding: 10px;
+}
+
+input[type="submit"] {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.button {
+    float: left;
+    margin: 0 5px 0 0;
+    width: 100px;
+    height: 40px;
+    position: relative;
+    flex: 1;
+}
+
+.button label,
+.button input {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+
+}
+
+.button input[type="radio"] {
+    opacity: 0.011;
+    z-index: 100;
+}
+
+.button input[type="radio"]:checked + label {
+    background-color: var(--pleasant-main-pressed-background-color);
+    font-weight: bold;
+}
+
+.button label {
+    cursor: pointer;
+    z-index: 90;
+    line-height: 1.8em;
+    text-align: center;
+    align-self: center;
+    border-radius: var(--pleasant-rounded-corner-radius);
+    border: 1pt solid var(--pleasant-border-color);
+    color: var(--pleasant-text-foreground);
+    font-family: var(--pleasant-fontfamily-title);
+    background-color: var(--pleasant-main-background-color);
+}

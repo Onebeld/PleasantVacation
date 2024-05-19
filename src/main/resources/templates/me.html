@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <head>
         <meta charset="UTF-8">
-        <title>Pleasant Vacation</title>
+        <title>Pleasant Vacation | [[#{me.title}]]</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
         <link rel="stylesheet" th:href="@{/css/me.css}">
@@ -20,36 +20,32 @@
                                 person
                             </span>
                         </div>
-                        <h1 class="profile-name"><span th:text="${user.name}"></span> <span th:text="${user.surname}"></span> <span th:text="${user.patronymic}"></span></h1>
+                        <h1 class="profile-name"><span th:text="${user.surname}"></span> <span th:text="${user.name}"></span> <span th:text="${user.patronymic}"></span></h1>
 
                         <th:block sec:authorize="hasAuthority('USER')">
-                            <h3 class="profile-type">Пользователь</h3>
+                            <h3 class="profile-type" th:text="#{account.user}"></h3>
                         </th:block>
                         <th:block sec:authorize="hasAuthority('TOURMANAGER')">
-                            <h3 class="profile-type">Туроператор</h3>
+                            <h3 class="profile-type" th:text="#{account.tourmanager}"></h3>
 
-                            <a th:href="@{/tours/add}">Создать путевку</a>
+                            <a th:href="@{/tours/add}" th:text="#{me.createTour}"></a>
                         </th:block>
 
                         <form th:action="@{/logout}" method="post">
-                            <input type="submit" class="logout-button" value="Выйти из системы"/>
+                            <input type="submit" class="logout-button" th:value="#{me.exitFromSystem}"/>
                         </form>
                     </div>
 
                     <div class="trips-container">
                         <th:block sec:authorize="hasAuthority('USER')">
-                            <h1>Купленные путевки</h1>
+                            <h1 th:text="#{me.boughtTours}"></h1>
                         </th:block>
                         <th:block sec:authorize="hasAuthority('TOURMANAGER')">
-                            <h1>Созданные путевки</h1>
+                            <h1 th:text="#{me.createdTours}"></h1>
                         </th:block>
 
-                        <div id="trips">
-
-                        </div>
+                        <div id="trips"></div>
                     </div>
-
-
                 </div>
             </main>
 

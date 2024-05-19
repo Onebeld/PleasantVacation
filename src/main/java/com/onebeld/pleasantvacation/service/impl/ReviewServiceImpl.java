@@ -15,6 +15,10 @@ public class ReviewServiceImpl implements ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
+    public void saveReview(Review review) {
+        reviewRepository.save(review);
+    }
+
     @Override
     public Page<Review> findAllReviews(Pageable pageable) {
         return reviewRepository.findAll(pageable);

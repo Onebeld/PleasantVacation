@@ -2,39 +2,49 @@ package com.onebeld.pleasantvacation.dto.trip;
 
 import com.onebeld.pleasantvacation.entity.Trip;
 import jakarta.validation.constraints.Positive;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.util.List;
 
-public class TripReducedDto {
+public class CreateTripDto {
     private long id;
 
     private String name;
+    private String description;
     private String city;
     private String country;
     private Date startDate;
     private Date endDate;
     @Positive
     private double price;
-    private String image;
+    private boolean allInclusive;
+    private List<MultipartFile> images;
 
-    public TripReducedDto(Trip trip) {
+    public CreateTripDto() {}
+
+    public CreateTripDto(Trip trip) {
         this.id = trip.getId();
         this.name = trip.getName();
+        this.description = trip.getDescription();
         this.city = trip.getCity();
         this.country = trip.getCountry();
         this.startDate = trip.getStartDate();
         this.endDate = trip.getEndDate();
         this.price = trip.getPrice();
+        this.allInclusive = trip.isAllInclusive();
     }
 
-    public TripReducedDto(long id, String name, String city, String country, Date startDate, Date endDate, double price) {
+    public CreateTripDto(long id, String name, String description, String city, String country, Date startDate, Date endDate, double price, boolean allInclusive) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.city = city;
         this.country = country;
         this.startDate = startDate;
         this.endDate = endDate;
         this.price = price;
+        this.allInclusive = allInclusive;
     }
 
     public long getId() {
@@ -51,6 +61,14 @@ public class TripReducedDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCity() {
@@ -93,11 +111,19 @@ public class TripReducedDto {
         this.price = price;
     }
 
-    public String getImage() {
-        return image;
+    public boolean isAllInclusive() {
+        return allInclusive;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setAllInclusive(boolean allInclusive) {
+        this.allInclusive = allInclusive;
+    }
+
+    public List<MultipartFile> getImages() {
+        return images;
+    }
+
+    public void setImages(List<MultipartFile> images) {
+        this.images = images;
     }
 }

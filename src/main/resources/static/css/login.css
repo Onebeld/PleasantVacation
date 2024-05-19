@@ -1,0 +1,58 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    text-align: center;
+    font-family: var(--pleasant-fontfamily-title);
+    color: var(--pleasant-header-foreground);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-form {
+    background-color: var(--pleasant-primary-background-color);
+    border-radius: var(--pleasant-corner-radius);
+    border: 1pt solid var(--pleasant-border-color);
+    padding: 10px;
+}
+
+.error {
+    background-color: var(--pleasant-error-background-color);
+    border-radius: var(--pleasant-corner-radius);
+    border: 1pt solid var(--pleasant-error-border-color);
+    padding: 10px;
+    color: var(--pleasant-error-foreground-color);
+}
+
+.error > p {
+    margin: 0;
+}
+
+#registration-link {
+    text-align: center;
+    color: var(--pleasant-header-foreground);
+}
+
+#registration-text {
+    margin-top: 50px;
+    text-align: center;
+}
+
+#submit-button {
+    margin-top: 30px;
+}

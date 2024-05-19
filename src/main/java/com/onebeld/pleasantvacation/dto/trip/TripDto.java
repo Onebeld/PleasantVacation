@@ -4,6 +4,7 @@ import com.onebeld.pleasantvacation.entity.Trip;
 import jakarta.validation.constraints.Positive;
 
 import java.sql.Date;
+import java.util.List;
 
 public class TripDto {
     private long id;
@@ -17,6 +18,7 @@ public class TripDto {
     @Positive
     private double price;
     private boolean allInclusive;
+    private List<String> imageUrls;
 
     public TripDto() {}
 
@@ -114,5 +116,13 @@ public class TripDto {
 
     public void setAllInclusive(boolean allInclusive) {
         this.allInclusive = allInclusive;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 }

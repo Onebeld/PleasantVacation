@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
     <head>
         <meta charset="UTF-8">
         <title>Pleasant Vacation | Add Tour</title>
@@ -14,7 +14,7 @@
                 <div class="container">
                     <h1>Создание путевки</h1>
 
-                    <form th:action="@{/tours/add}" method="post">
+                    <form th:action="@{/tours/add}" method="post" enctype="multipart/form-data">
                         <div><label>Название: <input type="text" name="name" required/> </label></div>
                         <div><label>Страна: <input type="text" name="country" required/> </label></div>
                         <div><label>Город: <input type="text" name="city" required/> </label></div>
@@ -31,6 +31,8 @@
                         <div><label>Цена: <input type="number" name="price" required/> </label></div>
 
                         <div><label>Описание: <input type="text" rows="20" name="description" required/> </label></div>
+
+                        <div><label>Изображения: <input type="file" name="images" multiple></label></div>
 
                         <div><input type="submit" value="Создать"/></div>
                     </form>

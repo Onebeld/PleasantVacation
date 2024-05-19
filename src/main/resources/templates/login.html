@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
     <head>
         <meta charset="UTF-8">
-        <title>Pleasant Vacation | Login</title>
+        <title>Pleasant Vacation | [[#{login.title}]]</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
+        <link rel="stylesheet" th:href="@{/css/login.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -12,19 +13,28 @@
 
             <main>
                 <div class="container">
-                    <div class="error">
-                        <span th:if="${param.error}">Invalid username and password.</span>
-                        <span th:if="${param.logout}">Logged out</span>
+                    <th:block th:if="${param.error}">
+                        <div class="error">
+                            <p th:text="#{login.invalidUsernameOrPassword}"></p>
+                        </div>
+                    </th:block>
+
+                    <div class="login-form">
+                        <h2 th:text="#{login.title}"></h2>
+
+                        <form th:action="@{/login}" method="post">
+                            <label for="username" th:text="#{login.username}"></label>
+                            <input type="text" id="username" name="username" required/>
+
+                            <label for="password" th:text="#{login.password}"></label>
+                            <input type="password" id="password" name="password" required/>
+
+                            <input id="submit-button" type="submit" th:value="#{login.signIn}"/>
+                        </form>
+
+                        <p id="registration-text"><span th:text="#{login.noAccount}"></span> <a id="registration-link" th:href="@{/registration}" th:text="#{login.register}"></a>
+                        </p>
                     </div>
-
-                    <form th:action="@{/login}" method="post">
-                        <div><label>Username : <input type="text" name="username" required/> </label></div>
-                        <div><label>Password: <input type="password" name="password" required/> </label></div>
-
-                        <div><input type="submit" value="Sign In"/></div>
-                    </form>
-
-                    <a th:href="@{/registration}">Registration</a>
                 </div>
             </main>
 
