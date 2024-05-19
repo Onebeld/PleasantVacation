@@ -5,6 +5,7 @@ import com.onebeld.pleasantvacation.dto.review.ReviewSubmitDTO;
 import com.onebeld.pleasantvacation.dto.trip.CreateTripDto;
 import com.onebeld.pleasantvacation.dto.trip.TripDto;
 import com.onebeld.pleasantvacation.dto.trip.TripReducedDto;
+import com.onebeld.pleasantvacation.dto.trip.TripsDto;
 import com.onebeld.pleasantvacation.entity.*;
 import com.onebeld.pleasantvacation.entity.enums.TicketState;
 import com.onebeld.pleasantvacation.entity.enums.TripState;
@@ -198,10 +199,43 @@ public class ToursController {
      */
     @GetMapping("/api/tours")
     @ResponseBody
-    List<TripReducedDto> getAllTrips(@RequestParam int page, @RequestParam int elementsInPage) {
+    TripsDto getAllTrips(@RequestParam int page, @RequestParam int elementsInPage) {
         List<TripReducedDto> trips = new ArrayList<>();
 
         Page<Trip> tripsPage = tripService.findAllTrips(PageRequest.of(page, elementsInPage));
+
+        return getTripsDto(page, elementsInPage, tripsPage, trips);
+    }
+
+    @PreAuthorize("hasAuthority('TOURMANAGER')")
+    @GetMapping("/api/tours/tourmanager")
+    @ResponseBody
+    TripsDto getTripsForManager(@RequestParam int page, @RequestParam int elementsInPage, Principal principal) {
+        List<TripReducedDto> trips = new ArrayList<>();
+
+        Page<Trip> tripsPage = tripService.findTripsByUsername(principal.getName(), PageRequest.of(page, elementsInPage));
+
+        return getTripsDto(page, elementsInPage, tripsPage, trips);
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/api/tours/bought")
+    @ResponseBody
+    TripsDto getBoughtTrips(@RequestParam int page, @RequestParam int elementsInPage, Principal principal) {
+        List<TripReducedDto> trips = new ArrayList<>();
+
+        Page<Trip> tripsPage = tripService.findAllPurchasedTripsByUsername(principal.getName(), PageRequest.of(page, elementsInPage));
+
+        return getTripsDto(page, elementsInPage, tripsPage, trips);
+    }
+
+    private TripsDto getTripsDto(int page, int elementsInPage, Page<Trip> tripsPage, List<TripReducedDto> trips) {
+        TripsDto tripsDto = new TripsDto();
+
+        tripsDto.setCurrentPage(page);
+        tripsDto.setElementsOnPage(elementsInPage);
+        tripsDto.setTotalPages(tripsPage.getTotalPages());
+        tripsDto.setTotalElements(tripsPage.getTotalElements());
 
         for (Trip trip : tripsPage) {
             TripReducedDto tripReducedDto = new TripReducedDto(trip);
@@ -210,36 +244,7 @@ public class ToursController {
             trips.add(tripReducedDto);
         }
 
-        return trips;
-    }
-
-    @PreAuthorize("hasAuthority('TOURMANAGER')")
-    @GetMapping("/api/tours/tourmanager")
-    @ResponseBody
-    List<TripReducedDto> getTripsForManager(@RequestParam int page, @RequestParam int elementsInPage, Principal principal) {
-        List<TripReducedDto> trips = new ArrayList<>();
-
-        Page<Trip> tripsPage = tripService.findTripsByUsername(principal.getName(), PageRequest.of(page, elementsInPage));
-
-        for (Trip trip : tripsPage) {
-            trips.add(new TripReducedDto(trip));
-        }
-
-        return trips;
-    }
-
-    @PreAuthorize("hasAuthority('USER')")
-    @GetMapping("/api/tours/bought")
-    @ResponseBody
-    List<TripReducedDto> getBuyedTrips(@RequestParam int page, @RequestParam int elementsInPage, Principal principal) {
-        List<TripReducedDto> tripsReduced = new ArrayList<>();
-
-        Page<Trip> trips = tripService.findAllPurchasedTripsByUsername(principal.getName(), PageRequest.of(page, elementsInPage));
-
-        for (Trip trip : trips) {
-            tripsReduced.add(new TripReducedDto(trip));
-        }
-
-        return tripsReduced;
+        tripsDto.setTrips(trips);
+        return tripsDto;
     }
 }

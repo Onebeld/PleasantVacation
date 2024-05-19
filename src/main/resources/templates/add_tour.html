@@ -5,6 +5,7 @@
         <title>Pleasant Vacation | Add Tour</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
+        <link rel="stylesheet" th:href="@{/css/add-tour.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -12,30 +13,47 @@
 
             <main>
                 <div class="container">
-                    <h1>Создание путевки</h1>
 
-                    <form th:action="@{/tours/add}" method="post" enctype="multipart/form-data">
-                        <div><label>Название: <input type="text" name="name" required/> </label></div>
-                        <div><label>Страна: <input type="text" name="country" required/> </label></div>
-                        <div><label>Город: <input type="text" name="city" required/> </label></div>
+                    <div class="create-form">
+                        <h2>Создание путевки</h2>
 
-                        <div>
-                            <input type="checkbox" id="allInclusive" name="allInclusive" value="true">
-                            <label for="allInclusive">Все включено</label>
-                        </div>
+                        <form th:action="@{/tours/add}" method="post" enctype="multipart/form-data">
+                            <label for="name" th:text="#{trip.name}"></label>
+                            <input type="text" id="name" name="name" required/>
+                            <label for="name" th:text="#{registration.country}"></label>
+                            <input type="text" id="country" name="country" required/>
+                            <label for="name" th:text="#{registration.city}"></label>
+                            <input type="text" id="city" name="city" required/>
 
-                        <!-- Start and end Date select -->
-                        <div><label>Начало: <input type="date" name="startDate" required/> </label></div>
-                        <div><label>Конец: <input type="date" name="endDate" required/> </label></div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="allInclusive" name="allInclusive" value="true">
+                                <label for="allInclusive" th:text="#{trip.allInclusive}"></label>
+                            </div>
 
-                        <div><label>Цена: <input type="number" name="price" required/> </label></div>
+                            <!-- Start and end Date select -->
+                            <label for="startDate" th:text="#{trip.startDate}"></label>
+                            <input type="date" id="startDate" name="startDate" required/>
+                            <label for="endDate" th:text="#{trip.endDate}"></label>
+                            <input type="date" id="endDate" name="endDate" required/>
 
-                        <div><label>Описание: <input type="text" rows="20" name="description" required/> </label></div>
+                            <label for="price" th:text="#{trip.price}"></label>
+                            <input type="number" id="price" name="price" required/>
+                            <label for="description" th:text="#{trip.description}"></label>
+                            <textarea rows="20" id="description" name="description" required></textarea>
 
-                        <div><label>Изображения: <input type="file" name="images" multiple></label></div>
+                            <label for="images" th:text="#{trip.images}"></label>
+                            <input type="file" id="images" name="images" multiple>
+                            <ul>
+                                <li><span th:text="#{trip.maxImageSize}"></span> <b>10MB</b></li>
+                                <li><span th:text="#{trip.maxImagesSize}"></span> <b>100MB</b></li>
+                            </ul>
 
-                        <div><input type="submit" value="Создать"/></div>
-                    </form>
+
+                            <input type="submit" id="submit-button" value="Создать"/>
+                        </form>
+
+
+                    </div>
                 </div>
             </main>
 

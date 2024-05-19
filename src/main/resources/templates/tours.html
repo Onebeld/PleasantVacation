@@ -6,6 +6,7 @@
         <link rel="stylesheet" th:href="@{/css/tours.css}">
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
+        <link rel="stylesheet" th:href="@{/css/trips.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -40,7 +41,7 @@
 
                 </div>
 
-                <div id="trips"></div>
+                <th:block th:replace="~{fragments/trips :: div}"></th:block>
             </main>
 
             <th:block th:replace="~{fragments/footer :: footer}"></th:block>

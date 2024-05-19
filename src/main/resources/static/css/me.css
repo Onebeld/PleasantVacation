@@ -11,6 +11,12 @@
     border-radius: var(--pleasant-corner-radius);
     border: 1pt solid var(--pleasant-border-color);
     padding: 10px;
+    max-width: 400px;
+    align-self: flex-start;
+}
+
+.profile.big {
+    background-color: var(--pleasant-main-background-color);
 }
 
 div.profile.big {
@@ -27,16 +33,45 @@ div.profile.big {
 .profile-name {
     font-size: 16pt;
     margin-bottom: 0;
+    font-family: var(--pleasant-fontfamily-title);
+    color: var(--pleasant-text-selected-foreground);
+    text-align: center;
 }
 
 .profile-type {
     font-size: 12pt;
 }
 
-.logout-button {
+input[type="submit"].logout-button {
     margin-top: 50px;
     background-color: var(--pleasant-error-background-color);
     border: 1pt solid var(--pleasant-error-border-color);
-    padding: 10px;
+    padding: 5px 20px;
     color: var(--pleasant-error-foreground-color);
+    font-family: var(--pleasant-fontfamily-title);
+    font-weight: bold;
+    border-radius: var(--pleasant-rounded-corner-radius);
+    cursor: pointer;
+}
+input[type="submit"].logout-button:hover {
+    background-color: var(--pleasant-error-background-color-hover);
+}
+input[type="submit"].logout-button:active {
+    background-color: var(--pleasant-error-background-color-active);
+}
+
+h1 {
+    font-family: var(--pleasant-fontfamily-title);
+    color: var(--pleasant-text-selected-foreground);
+}
+
+@media screen and (max-width: 960px) {
+    .profile-container {
+        align-self: stretch;
+        max-width: none;
+    }
+
+    .container {
+        flex-direction: column;
+    }
 }

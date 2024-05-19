@@ -24,33 +24,23 @@ h2 {
     gap: 10px;
 }
 
-.login-form {
+.create-form {
     background-color: var(--pleasant-primary-background-color);
     border-radius: var(--pleasant-corner-radius);
     border: 1pt solid var(--pleasant-border-color);
     padding: 10px;
 }
 
-.error {
-    background-color: var(--pleasant-error-background-color);
-    border-radius: var(--pleasant-corner-radius);
-    border: 1pt solid var(--pleasant-error-border-color);
-    padding: 10px;
-    color: var(--pleasant-error-foreground-color);
+.checkbox {
+    margin-bottom: 20px;
 }
 
-.error > p {
-    margin: 0;
+#endDate {
+    margin-bottom: 20px;
 }
 
-#registration-link {
-    text-align: center;
-    color: var(--pleasant-header-foreground);
-}
-
-#registration-text {
-    margin-top: 50px;
-    text-align: center;
+#price {
+    margin-bottom: 20px;
 }
 
 #submit-button {
@@ -63,6 +53,7 @@ h2 {
     font-family: var(--pleasant-fontfamily-title);
     font-weight: bold;
     font-size: 14pt;
+    margin-bottom: 20px;
     cursor: pointer;
 }
 #submit-button:hover {
@@ -70,4 +61,11 @@ h2 {
 }
 #submit-button:active {
     background-color: var(--pleasant-header-foreground-pressed);
+}
+
+ul {
+    padding: 0;
+    margin: 0 0 0 20px;
+    font-size: 12px;
+    color: var(--pleasant-text-secondary-foreground);
 }

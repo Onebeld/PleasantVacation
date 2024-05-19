@@ -38,6 +38,21 @@ h2 {
 input[type="submit"] {
     margin-top: 30px;
     margin-bottom: 20px;
+    background-color: var(--pleasant-header-foreground);
+    color: var(--pleasant-main-background-color);
+    border: none;
+    border-radius: var(--pleasant-rounded-corner-radius);
+    padding: 10px;
+    font-size: 14pt;
+    font-weight: bold;
+    font-family: var(--pleasant-fontfamily-title);
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background-color: var(--pleasant-header-foreground-hover);
+}
+input[type="submit"]:active {
+    background-color: var(--pleasant-header-foreground-pressed);
 }
 
 .buttons {
@@ -73,7 +88,8 @@ input[type="submit"] {
 }
 
 .button input[type="radio"]:checked + label {
-    background-color: var(--pleasant-main-pressed-background-color);
+    background-color: var(--pleasant-header-foreground);
+    color: var(--pleasant-main-background-color);
     font-weight: bold;
 }
 

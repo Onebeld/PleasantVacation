@@ -7,6 +7,7 @@
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
         <link rel="stylesheet" th:href="@{/css/me.css}">
+        <link rel="stylesheet" th:href="@{/css/trips.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -44,7 +45,7 @@
                             <h1 th:text="#{me.createdTours}"></h1>
                         </th:block>
 
-                        <div id="trips"></div>
+                        <th:block th:replace="~{fragments/trips :: div}"></th:block>
                     </div>
                 </div>
             </main>

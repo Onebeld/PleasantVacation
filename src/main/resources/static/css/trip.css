@@ -13,8 +13,8 @@ div.carousel-image-block {
     border: 1pt solid var(--pleasant-border-color);
     border-radius: var(--pleasant-corner-radius);
     overflow: hidden;
-    width: 650px;
-    height: 350px;
+    width: 640px;
+    height: 360px;
 }
 
 div.image-count-block {
@@ -35,7 +35,9 @@ div.carousel-block-images {
 .carousel-image {
     position: absolute;
     height: 100%;
+    width: 100%;
     object-fit: cover;
+    object-position: center;
     transition: all 0.5s;
 }
 
