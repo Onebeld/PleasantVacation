@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" th:lang="${#locale.language}" th:xmllang="${#locale.language}">
     <head>
         <meta charset="UTF-8">
-        <title>Pleasant Vacation | [[#{trip.createTour}]]</title>
+        <title>Pleasant Vacation | [[#{trip.editTour}]]</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
         <link rel="stylesheet" th:href="@{/css/add-tour.css}">
@@ -15,44 +15,41 @@
                 <div class="container">
 
                     <div class="create-form">
-                        <h2 th:text="#{trip.createTour}"></h2>
+                        <h2 th:text="#{trip.editTour}"></h2>
 
-                        <form th:action="@{/tours/add}" method="post" enctype="multipart/form-data">
+                        <form th:action="@{/tours/{id}/edit(id=${trip.id})}" method="post" enctype="multipart/form-data">
                             <label for="name" th:text="#{trip.name}"></label>
-                            <input type="text" id="name" name="name" required/>
+                            <input type="text" id="name" name="name" th:field="${trip.name}" required/>
                             <label for="name" th:text="#{registration.country}"></label>
-                            <input type="text" id="country" name="country" required/>
+                            <input type="text" id="country" name="country" th:field="${trip.country}" required/>
                             <label for="name" th:text="#{registration.city}"></label>
-                            <input type="text" id="city" name="city" required/>
+                            <input type="text" id="city" name="city" th:field="${trip.city}" required/>
 
                             <div class="checkbox">
-                                <input type="checkbox" id="allInclusive" name="allInclusive">
+                                <input type="checkbox" id="allInclusive" name="allInclusive" th:field="${trip.allInclusive}">
                                 <label for="allInclusive" th:text="#{trip.allInclusive}"></label>
                             </div>
 
                             <!-- Start and end Date select -->
                             <label for="startDate" th:text="#{trip.startDate}"></label>
-                            <input type="date" id="startDate" name="startDate" required/>
+                            <input type="date" id="startDate" name="startDate" th:field="${trip.startDate}" required/>
                             <label for="endDate" th:text="#{trip.endDate}"></label>
-                            <input type="date" id="endDate" name="endDate" required/>
+                            <input type="date" id="endDate" name="endDate" th:field="${trip.endDate}" required/>
 
                             <label for="price" th:text="#{trip.price}"></label>
-                            <input type="number" id="price" name="price" required/>
+                            <input type="number" id="price" name="price" th:field="${trip.price}" required/>
                             <label for="description" th:text="#{trip.description}"></label>
-                            <textarea rows="20" id="description" name="description" required></textarea>
+                            <textarea rows="20" id="description" name="description" th:field="${trip.description}" required></textarea>
 
                             <label for="images" th:text="#{trip.images}"></label>
-                            <input type="file" id="images" name="images" multiple>
+                            <input type="file" id="images" name="images" th:field="${trip.images}" multiple>
                             <ul>
                                 <li><span th:text="#{trip.maxImageSize}"></span> <b>10MB</b></li>
                                 <li><span th:text="#{trip.maxImagesSize}"></span> <b>100MB</b></li>
                             </ul>
 
-
-                            <input type="submit" id="submit-button" th:value="#{trip.create}"/>
+                            <input type="submit" id="submit-button" th:value="#{trip.edit}"/>
                         </form>
-
-
                     </div>
                 </div>
             </main>

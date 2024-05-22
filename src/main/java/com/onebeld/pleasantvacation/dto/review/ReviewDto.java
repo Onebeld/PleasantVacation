@@ -21,7 +21,6 @@ public class ReviewDto {
         this.user = review.getUser();
         this.date = review.getDate();
         this.text = review.getText();
-        this.rating = review.getRating();
     }
 
     public ReviewDto(long id, User user, Timestamp date, String text, short rating) {

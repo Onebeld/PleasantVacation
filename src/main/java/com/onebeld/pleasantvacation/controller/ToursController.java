@@ -1,7 +1,7 @@
 package com.onebeld.pleasantvacation.controller;
 
 import com.onebeld.pleasantvacation.dto.review.ReviewDto;
-import com.onebeld.pleasantvacation.dto.review.ReviewSubmitDTO;
+import com.onebeld.pleasantvacation.dto.review.ReviewSubmitDto;
 import com.onebeld.pleasantvacation.dto.review.ReviewsDto;
 import com.onebeld.pleasantvacation.dto.trip.CreateTripDto;
 import com.onebeld.pleasantvacation.dto.trip.TripDto;
@@ -19,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,6 +44,7 @@ public class ToursController {
     private final TicketRepository ticketRepository;
     private final ImageRepository imageRepository;
     private final ExchangeRateRepository exchangeRateRepository;
+    private final FileStorageServiceImpl fileStorageServiceImpl;
 
     /**
      * Создает экземпляр контроллера
@@ -61,6 +64,7 @@ public class ToursController {
         this.reviewService = reviewService;
         this.imageRepository = imageRepository;
         this.exchangeRateRepository = exchangeRateRepository;
+        this.fileStorageServiceImpl = fileStorageServiceImpl;
     }
 
     @RequestMapping("/tours")
@@ -69,7 +73,7 @@ public class ToursController {
     }
 
     @RequestMapping("/tours/{id}")
-    public String tour(@PathVariable String id, Model model) {
+    public String tour(@PathVariable String id, Model model, Authentication authentication) {
         Optional<Trip> trip = tripService.findById(Long.parseLong(id));
 
         if (trip.isPresent()) {
@@ -80,11 +84,88 @@ public class ToursController {
             tripDto.setImageUrls(images.stream().map(Image::getUrl).toList());
 
             model.addAttribute("trip", tripDto);
-            model.addAttribute("review", new ReviewSubmitDTO());
+            model.addAttribute("review", new ReviewSubmitDto());
+
+            if (authentication != null && authentication.getAuthorities().contains(new SimpleGrantedAuthority("TOURMANAGER"))) {
+                // Check if trip is created by me
+                Optional<User> user = userService.findUserByUsername(authentication.getName());
+
+                if (user.isEmpty())
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+
+                if (!trip.get().getUser().equals(user.get())) {
+                    model.addAttribute("createdByMe", false);
+
+                    return "trip";
+                }
+
+                long ticketsCount = ticketRepository.countByTrip(trip.get());
+                double totalEarned = tripDto.getPrice() * ticketsCount;
+
+                model.addAttribute("ticketsCount", ticketsCount);
+                model.addAttribute("totalEarned", totalEarned);
+
+                model.addAttribute("createdByMe", true);
+            }
 
             return "trip";
         }
         else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found");
+    }
+
+    @PreAuthorize("hasAuthority('TOURMANAGER')")
+    @PostMapping("/tours/{id}/delete")
+    public String deleteTrip(@PathVariable String id, Principal principal) {
+        Optional<Trip> trip = tripService.findById(Long.parseLong(id));
+
+        if (trip.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found");
+
+        if (!trip.get().getUser().getUsername().equals(principal.getName()))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't delete this trip");
+
+        for (Image image : imageRepository.findAllByTrip(trip.get())) {
+            try {
+                fileStorageServiceImpl.delete(image.getUrl());
+
+                imageRepository.delete(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        tripService.deleteTrip(trip.get());
+
+        return "redirect:/tours";
+    }
+
+    @PreAuthorize("hasAuthority('TOURMANAGER')")
+    @GetMapping("/tours/{id}/edit")
+    public String editTrip(@PathVariable String id, Model model, Principal principal) {
+        Optional<Trip> trip = tripService.findById(Long.parseLong(id));
+
+        if (trip.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Trip not found");
+
+        if (!trip.get().getUser().getUsername().equals(principal.getName()))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't edit this trip");
+
+        CreateTripDto tripDto = new CreateTripDto(trip.get());
+
+        model.addAttribute("trip", tripDto);
+
+        return "edit_tour";
+    }
+
+    @PreAuthorize("hasAuthority('TOURMANAGER')")
+    @PostMapping("/tours/{id}/edit")
+    public String editTrip(@PathVariable String id, @ModelAttribute("trip") CreateTripDto tripDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "edit_tour";
+
+        tripService.updateTrip(tripDto);
+
+        return "redirect:/tours/" + id;
     }
 
     @PostMapping("/tours/{id}/buy")
@@ -112,7 +193,7 @@ public class ToursController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/tours/{id}/reviews/add")
-    String addReview(@PathVariable long id, @ModelAttribute("review") @Valid ReviewSubmitDTO reviewSubmitDTO, BindingResult bindingResult, Principal principal) {
+    String addReview(@PathVariable long id, @ModelAttribute("review") @Valid ReviewSubmitDto reviewSubmitDTO, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "redirect:/tours/" + id;
         }
@@ -129,7 +210,6 @@ public class ToursController {
         review.setUser(userDto.get());
         review.setTrip(trip.get());
         review.setDate(new Timestamp(System.currentTimeMillis()));
-        review.setRating((short) 5);
 
         reviewService.saveReview(review);
 
@@ -214,16 +294,13 @@ public class ToursController {
     @ResponseBody
     TripsDto getAllTrips(@RequestParam int page,
                          @RequestParam int elementsInPage,
-                         @RequestParam(required = false, defaultValue = "0") Long minPrice,
-                         @RequestParam(required = false, defaultValue = "0") Long maxPrice) {
+                         @RequestParam(defaultValue = "0") Long minPrice,
+                         @RequestParam(defaultValue = "999999") Long maxPrice) {
         List<TripReducedDto> trips = new ArrayList<>();
 
         Page<Trip> tripsPage;
 
-        if (minPrice != 0 && maxPrice != 0)
-            tripsPage = tripService.findAllTripsByPrice(minPrice, maxPrice, PageRequest.of(page, elementsInPage));
-        else
-            tripsPage = tripService.findAllTrips(PageRequest.of(page, elementsInPage));
+        tripsPage = tripService.findAllTripsByPrice(minPrice, maxPrice, PageRequest.of(page, elementsInPage));
 
         return getTripsDto(page, elementsInPage, tripsPage, trips);
     }

@@ -2,8 +2,6 @@ package com.onebeld.pleasantvacation.entity;
 
 import com.onebeld.pleasantvacation.dto.review.ReviewDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 
 import java.sql.Timestamp;
 
@@ -14,11 +12,11 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "trip_id", referencedColumnName = "id")
     private Trip trip;
 
@@ -28,11 +26,6 @@ public class Review {
     @Column(name = "text", nullable = false, length = 5000)
     private String text;
 
-    @Column(name = "rating", nullable = false)
-    @Min(1)
-    @Max(5)
-    private short rating;
-
     public Review() {}
 
     // From ReviewDto
@@ -40,7 +33,6 @@ public class Review {
         this.user = reviewDto.getUser();
         this.date = reviewDto.getDate();
         this.text = reviewDto.getText();
-        this.rating = reviewDto.getRating();
     }
 
     public Review(User user, Trip trip, Timestamp date, String text, short rating) {
@@ -48,7 +40,6 @@ public class Review {
         this.trip = trip;
         this.date = date;
         this.text = text;
-        this.rating = rating;
     }
 
     public long getId() {
@@ -91,14 +82,6 @@ public class Review {
         this.text = text;
     }
 
-    public short getRating() {
-        return rating;
-    }
-
-    public void setRating(short rating) {
-        this.rating = rating;
-    }
-
     @Override
     public String toString() {
         return "Review{" +
@@ -107,7 +90,6 @@ public class Review {
                 ", trip_id=" + trip.getId() +
                 ", date=" + date +
                 ", text='" + text + '\'' +
-                ", rating=" + rating +
                 '}';
     }
 }

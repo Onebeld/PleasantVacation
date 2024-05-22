@@ -14,9 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -68,14 +66,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserDto> findAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map(this::mapToUserDto).collect(Collectors.toList());
-    }
-
     public UserDto getUserByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
         return mapToUserDto(user.get());
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isEmpty())
+            throw new UsernameNotFoundException("User not found");
+
+        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), getAuthorities(user.get()));
     }
 
     private UserDto mapToUserDto(User user) {
@@ -88,7 +91,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 user.getCountry(),
                 user.getPassword(),
                 user.getRole().getName()
-                );
+        );
     }
 
     private User mapToUser(UserDto userDto) {
@@ -101,16 +104,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 userDto.getCity(),
                 userDto.getCountry(),
                 roleRepository.findByName(userDto.getRole()));
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
-
-        if (user.isEmpty())
-            throw new UsernameNotFoundException("User not found");
-
-        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), getAuthorities(user.get()));
     }
 
     private static Collection<? extends GrantedAuthority> getAuthorities(User user) {

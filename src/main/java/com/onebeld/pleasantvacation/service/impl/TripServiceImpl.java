@@ -1,5 +1,6 @@
 package com.onebeld.pleasantvacation.service.impl;
 
+import com.onebeld.pleasantvacation.dto.trip.CreateTripDto;
 import com.onebeld.pleasantvacation.entity.Image;
 import com.onebeld.pleasantvacation.entity.Ticket;
 import com.onebeld.pleasantvacation.entity.Trip;
@@ -36,6 +37,8 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public void saveTrip(Trip trip, List<MultipartFile> images) {
+        tripRepository.save(trip);
+
         for (MultipartFile imageFile : images) {
             String imageUrl = fileStorageServiceImpl.storeFile(imageFile);
 
@@ -45,8 +48,6 @@ public class TripServiceImpl implements TripService {
 
             imageRepository.save(image);
         }
-
-        tripRepository.save(trip);
     }
 
     @Override
@@ -87,6 +88,57 @@ public class TripServiceImpl implements TripService {
     @Override
     public Optional<Trip> findById(long id) {
         return tripRepository.findById(id);
+    }
+
+    @Override
+    public long getBoundTripsCount(Trip trip) {
+        return ticketRepository.countByTrip(trip);
+    }
+
+    @Override
+    public void deleteTrip(Trip trip) {
+        tripRepository.delete(trip);
+    }
+
+    @Override
+    public void updateTrip(CreateTripDto tripDto) {
+        Trip trip = tripRepository.findById(tripDto.getId()).orElseThrow(() -> new RuntimeException("Trip not found with id " + tripDto.getId()));
+        trip.setName(tripDto.getName());
+        trip.setCity(tripDto.getCity());
+        trip.setCountry(tripDto.getCountry());
+        trip.setStartDate(tripDto.getStartDate());
+        trip.setEndDate(tripDto.getEndDate());
+        trip.setPrice(tripDto.getPrice());
+        trip.setDescription(tripDto.getDescription());
+        trip.setAllInclusive(tripDto.isAllInclusive());
+
+        if (tripDto.getImages() != null &&
+                (long)tripDto.getImages().size() > 0 &&
+                tripDto.getImages().stream().noneMatch(MultipartFile::isEmpty)) {
+            for (Image image : imageRepository.findAllByTrip(trip)) {
+                try {
+                    fileStorageServiceImpl.delete(image.getUrl());
+
+                    imageRepository.delete(image);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for (MultipartFile imageFile : tripDto.getImages()) {
+                if (imageFile.isEmpty()) continue;
+
+                String imageUrl = fileStorageServiceImpl.storeFile(imageFile);
+
+                Image image = new Image();
+                image.setUrl(imageUrl);
+                image.setTrip(trip);
+
+                imageRepository.save(image);
+            }
+        }
+
+        tripRepository.save(trip);
     }
 
     private double convertCurrency(long price) {

@@ -69,14 +69,22 @@ function updateSlides() {
     });
 }
 
+/**
+ * Получает страницу отзывов из API.
+ * @param {number} [page=0] - Номер страницы для получения
+ * @returns {Promise<Object>} - Promise, разрешающее данные о рецензиях
+ */
 async function getReviewsDto(page = 0) {
     let reviews;
 
+    // Создаем объект URL, через который мы будем обращаться к API сервера
     const url = new URL(window.location.origin + `/api/tours/${document.head.getAttribute("idtrip")}/reviews`);
 
+    // Добавляем параметры запроса, а именно: текущая страница и количество элементов на одной странице
     url.searchParams.append("page", page);
     url.searchParams.append("elementsInPage", 10);
 
+    // Таким образом происходит взаимодействие с сервером при помощи вызова API
     await fetch(url)
         .then(response => response.json())
         .then(data => { reviews = data; });
@@ -159,4 +167,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const price = document.querySelector("#price");
     price.innerText = addThousandsSeparator(price.innerText);
+
+    const totalEarned = document.querySelector("#totalEarnedSpan");
+    if (totalEarned !== null)
+        totalEarned.innerText = addThousandsSeparator(totalEarned.innerText);
 });

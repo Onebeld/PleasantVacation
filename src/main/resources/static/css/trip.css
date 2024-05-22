@@ -245,6 +245,53 @@ input[type="submit"].buy-button:active {
     background-color: var(--pleasant-header-foreground-pressed);
 }
 
+input[type="submit"].delete-button {
+    background-color: var(--pleasant-error-background-color);
+    border-radius: var(--pleasant-rounded-corner-radius);
+    color: var(--pleasant-error-foreground-color);
+    border: 1pt solid var(--pleasant-error-border-color);
+    padding: 5pt 30pt;
+    font-size: 14px;
+    white-space: nowrap;
+    text-align: center;
+    font-family: var(--pleasant-fontfamily-title);
+    font-weight: bold;
+    cursor: pointer;
+}
+input[type="submit"].delete-button:hover {
+    background-color: var(--pleasant-error-background-color-hover);
+}
+input[type="submit"].delete-button:active {
+    background-color: var(--pleasant-error-background-color-active);
+}
+
+.change-button {
+    background-color: var(--pleasant-header-foreground);
+    border-radius: var(--pleasant-rounded-corner-radius);
+    color: var(--pleasant-main-background-color);
+    border: 1pt solid var(--pleasant-border-color);
+    padding: 5pt 30pt;
+    font-size: 14px;
+    white-space: nowrap;
+    text-align: center;
+    font-family: var(--pleasant-fontfamily-title);
+    font-weight: bold;
+    cursor: pointer;
+}
+.change-button:hover {
+    background-color: var(--pleasant-header-foreground-hover);
+    color: var(--pleasant-main-background-color);
+}
+.change-button:active {
+    background-color: var(--pleasant-header-foreground-pressed);
+    color: var(--pleasant-main-background-color);
+}
+
+.trip-buttons {
+    display: flex;
+    gap: 10px;
+}
+
 div.row-container {
     display: flex;
 }
@@ -272,6 +319,14 @@ div.image-count-block {
 
 div.carousel-block-images {
     position: relative;
+}
+
+.trip-info.statistics p {
+    margin: 0 0 5px;
+}
+
+.statistics-title {
+    margin-top: 10px;
 }
 
 .carousel-image {

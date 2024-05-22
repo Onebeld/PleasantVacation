@@ -5,10 +5,13 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 public class FileStorageServiceImpl {
@@ -30,7 +33,7 @@ public class FileStorageServiceImpl {
                 throw new RuntimeException("Failed to store empty file " + file.getOriginalFilename());
             }
 
-            String fileName = file.getOriginalFilename();
+            String fileName = generateFileName(file);
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
 
             Files.copy(file.getInputStream(), targetLocation);
@@ -45,9 +48,9 @@ public class FileStorageServiceImpl {
         return fileStorageLocation.resolve(filename);
     }
 
-    public Resource loadAsResource(String filename) {
+    public Resource loadAsResource(String fileName) {
         try {
-            Path file = load(filename);
+            Path file = load(fileName);
 
             Resource resource = new UrlResource(file.toUri());
 
@@ -55,11 +58,31 @@ public class FileStorageServiceImpl {
                 return resource;
             }
             else {
-                throw new RuntimeException("Could not read file: " + filename);
+                throw new RuntimeException("Could not read file: " + fileName);
             }
         }
         catch (MalformedURLException e) {
-            throw new RuntimeException("Could not read file: " + filename, e);
+            throw new RuntimeException("Could not read file: " + fileName, e);
         }
+    }
+
+    public void delete(String url) throws IOException {
+        URI uri = URI.create(url);
+
+        String fileName = Paths.get(uri.getPath()).getFileName().toString();
+        Path path = fileStorageLocation.resolve(fileName);
+
+        Files.delete(path);
+    }
+
+    private String generateFileName(MultipartFile file) {
+        String originalFileName = file.getOriginalFilename();
+        String extension = "";
+
+        int i = originalFileName.lastIndexOf('.');
+        if (i >= 0)
+            extension = originalFileName.substring(i + 1);
+
+        return UUID.randomUUID() + "." + extension;
     }
 }

@@ -78,12 +78,30 @@
                                                 <input type="submit" class="buy-button" th:value="#{trip.buy}"/>
                                             </form>
                                         </th:block>
+                                        <th:block sec:authorize="hasAuthority('TOURMANAGER')" th:if="${createdByMe} == true">
+                                            <div class="trip-buttons">
+                                                <a th:href="@{/tours/{id}/edit(id=${trip.id})}" class="change-button">Изменить</a>
+
+                                                <form th:action="@{/tours/{id}/delete(id=${trip.id})}" method="post">
+                                                    <input type="submit" class="delete-button" value="Удалить"/>
+                                                </form>
+                                            </div>
+                                        </th:block>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <th:block sec:authorize="hasAuthority('TOURMANAGER')" th:if="${createdByMe} == true">
+                    <h3 th:text="#{trip.statistics}" class="statistics-title"></h3>
+
+                    <div class="trip-info statistics">
+                        <p><span th:text="#{trip.statistics.bought}"></span>: <span th:text="${ticketsCount}"></span></p>
+                        <p><span th:text="#{trip.statistics.total}"></span>: <span th:text="${totalEarned}" id="totalEarnedSpan"></span> RUB</p>
+                    </div>
+                </th:block>
 
                 <div class="description-container">
                     <h3 th:text="#{trip.description}"></h3>

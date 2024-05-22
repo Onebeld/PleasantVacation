@@ -1,5 +1,6 @@
 package com.onebeld.pleasantvacation.service;
 
+import com.onebeld.pleasantvacation.dto.trip.CreateTripDto;
 import com.onebeld.pleasantvacation.entity.Image;
 import com.onebeld.pleasantvacation.entity.Trip;
 import org.springframework.data.domain.Page;
@@ -23,4 +24,10 @@ public interface TripService {
     Page<Trip> findTripsByUsername(String username, Pageable pageable);
 
     Optional<Trip> findById(long id);
+
+    long getBoundTripsCount(Trip trip);
+
+    void deleteTrip(Trip trip);
+
+    void updateTrip(CreateTripDto tripDto);
 }

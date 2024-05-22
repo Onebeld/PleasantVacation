@@ -1,13 +1,13 @@
 package com.onebeld.pleasantvacation.dto.review;
 
-public class ReviewSubmitDTO {
+public class ReviewSubmitDto {
     private String text;
 
-    public ReviewSubmitDTO() {
+    public ReviewSubmitDto() {
 
     }
 
-    public ReviewSubmitDTO(String text) {
+    public ReviewSubmitDto(String text) {
         this.text = text;
     }
 

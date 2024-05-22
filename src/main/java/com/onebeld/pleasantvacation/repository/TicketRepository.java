@@ -13,4 +13,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     boolean existsTicketByUserAndTrip(User user, Trip trip);
 
     Page<Ticket> findTicketsByUser(User user, Pageable pageable);
+
+    long countByTrip(Trip trip);
 }
