@@ -3,10 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>Pleasant Vacation | [[#{head.title.tours}]]</title>
-        <link rel="stylesheet" th:href="@{/css/tours.css}">
+        <link rel="stylesheet" th:href="@{/css/pages/tours.css}">
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
-        <link rel="stylesheet" th:href="@{/css/trips.css}">
+        <link rel="stylesheet" th:href="@{/css/trips-list.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -41,7 +41,7 @@
                     <button class="filter-button" th:text="#{tours.find}"></button>
                 </div>
 
-                <th:block th:replace="~{fragments/trips :: div}"></th:block>
+                <th:block th:replace="~{fragments/trips_list :: div}"></th:block>
             </main>
 
             <th:block th:replace="~{fragments/footer :: footer}"></th:block>

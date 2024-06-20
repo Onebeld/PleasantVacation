@@ -5,7 +5,7 @@
         <title>Pleasant Vacation | [[#{login.registration}]]</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
-        <link rel="stylesheet" th:href="@{/css/registration.css}">
+        <link rel="stylesheet" th:href="@{/css/pages/registration.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -40,7 +40,7 @@
                             <label for="name" th:text="#{registration.name}"></label>
                             <input type="text" id="name" name="name" required/>
                             <label for="patronymic" th:text="#{registration.patronymic}"></label>
-                            <input type="text" id="patronymic" name="patronymic" required/>
+                            <input type="text" id="patronymic" name="patronymic"/>
                             <label for="city" th:text="#{registration.city}"></label>
                             <input type="text" id="city" name="city" required/>
                             <label for="country" th:text="#{registration.country}"></label>

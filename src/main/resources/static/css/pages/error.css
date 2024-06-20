@@ -1,0 +1,26 @@
+div.container {
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+main {
+    display: flex;
+    align-items: center;
+}
+
+h1.error-code {
+    font-size: 126pt;
+    font-weight: bold;
+    font-family: var(--pleasant-fontfamily-title);
+    margin: 0;
+    color: var(--pleasant-header-foreground);
+}
+
+p.error-message {
+    margin-bottom: 0;
+    text-align: center;
+}

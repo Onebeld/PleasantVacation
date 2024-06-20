@@ -5,7 +5,7 @@
         <title>Pleasant Vacation</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
-        <link rel="stylesheet" th:href="@{/css/home.css}">
+        <link rel="stylesheet" th:href="@{/css/pages/home.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -14,7 +14,7 @@
             <main>
                 <div class="container">
                     <div>
-                        <img th:src="@{/media/PleasantVacation.svg}" alt="PleasantVacation">
+                        <img th:src="@{/media/svg/PleasantVacation.svg}" alt="PleasantVacation">
                     </div>
                     <h3 th:text="#{home.tourAggregator}"></h3>
                 </div>

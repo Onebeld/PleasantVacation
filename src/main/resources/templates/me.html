@@ -6,8 +6,8 @@
         <title>Pleasant Vacation | [[#{me.title}]]</title>
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
-        <link rel="stylesheet" th:href="@{/css/me.css}">
-        <link rel="stylesheet" th:href="@{/css/trips.css}">
+        <link rel="stylesheet" th:href="@{/css/pages/me.css}">
+        <link rel="stylesheet" th:href="@{/css/trips-list.css}">
     </head>
     <body>
         <div class="wrapper">
@@ -23,7 +23,7 @@
                             </span>
                         </div>
                         <!-- Получение данных пользователя -->
-                        <h1 class="profile-name"><span th:text="${user.surname}"></span> <span th:text="${user.name}"></span> <span th:text="${user.patronymic}"></span></h1>
+                        <h1 class="profile-name"><span th:text="${user.getFullName()}"></span></h1>
 
                         <!-- Здесь скрываются блоки, если роли пользователя не совпадают с требуемыми -->
                         <th:block sec:authorize="hasAuthority('USER')">
@@ -33,6 +33,7 @@
                             <h3 class="profile-type" th:text="#{account.tourmanager}"></h3>
 
                             <a th:href="@{/tours/add}" th:text="#{me.createTour}"></a>
+                            <a th:href="@{/tours/statistics}">Получить статистику</a>
                         </th:block>
 
                         <!-- Форма выхода из системы -->
@@ -49,7 +50,7 @@
                             <h1 th:text="#{me.createdTours}"></h1>
                         </th:block>
 
-                        <th:block th:replace="~{fragments/trips :: div}"></th:block>
+                        <th:block th:replace="~{fragments/trips_list :: div}"></th:block>
                     </div>
                 </div>
             </main>

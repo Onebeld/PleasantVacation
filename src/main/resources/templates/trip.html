@@ -4,10 +4,13 @@
     <head th:idtrip="${trip.id}" th:startDate="${trip.startDate}" th:endDate="${trip.endDate}">
         <meta charset="UTF-8">
         <title>Pleasant Vacation | [[${trip.getName()}]]</title>
-        <link rel="stylesheet" th:href="@{/css/trip.css}">
+        <link rel="stylesheet" th:href="@{/css/pages/trip.css}">
 
         <th:block th:insert="~{fragments/head-links.html :: head}"></th:block>
     </head>
+    <translates>
+        <span th:text="#{trip.delete.message}" id="trip-delete-message"></span>
+    </translates>
     <body>
         <div class="wrapper">
             <th:block th:replace="~{fragments/header :: header}"></th:block>
@@ -43,13 +46,13 @@
                         </div>
 
                         <div class="title-trip-container">
-                            <h1 th:text="${trip.getName()}"></h1>
+                            <h1 class="title-trip" th:text="${trip.getName()}"></h1>
 
                             <div class="trip-info">
                                 <h3 th:text="#{trip.mainInfo}"></h3>
                                 <div class="info">
-                                    <p><span th:text="#{registration.city}"></span>: <span th:text="${trip.city}"></span></p>
-                                    <p><span th:text="#{registration.country}"></span>: <span th:text="${trip.country}"></span></p>
+                                    <p><span th:text="#{registration.city}"></span>: <span id="trip-city-span" th:text="${trip.city}"></span></p>
+                                    <p><span th:text="#{registration.country}"></span>: <span id="trip-country-span" th:text="${trip.country}"></span></p>
 
                                     <p class="date"><span th:text="#{trip.startDate}"></span>: <span id="startDate"></span></p>
                                     <p><span th:text="#{trip.endDate}"></span>: <span id="endDate"></span></p>
@@ -74,16 +77,18 @@
                                         <p class="trip-price"><span id="price" th:text="${trip.price}"></span> RUB</p>
 
                                         <th:block sec:authorize="hasAuthority('USER')">
+                                            <a id="add-to-calendar">Добавить в календарь</a>
+
                                             <form th:action="@{/tours/{id}/buy(id=${trip.id})}" method="post">
                                                 <input type="submit" class="buy-button" th:value="#{trip.buy}"/>
                                             </form>
                                         </th:block>
                                         <th:block sec:authorize="hasAuthority('TOURMANAGER')" th:if="${createdByMe} == true">
                                             <div class="trip-buttons">
-                                                <a th:href="@{/tours/{id}/edit(id=${trip.id})}" class="change-button">Изменить</a>
+                                                <a th:href="@{/tours/{id}/edit(id=${trip.id})}" class="change-button" th:text="#{trip.change}"></a>
 
-                                                <form th:action="@{/tours/{id}/delete(id=${trip.id})}" method="post">
-                                                    <input type="submit" class="delete-button" value="Удалить"/>
+                                                <form id="delete-trip-form" th:action="@{/tours/{id}/delete(id=${trip.id})}" method="post">
+                                                    <input type="submit" class="delete-button" th:value="#{trip.delete}"/>
                                                 </form>
                                             </div>
                                         </th:block>
@@ -100,13 +105,15 @@
                     <div class="trip-info statistics">
                         <p><span th:text="#{trip.statistics.bought}"></span>: <span th:text="${ticketsCount}"></span></p>
                         <p><span th:text="#{trip.statistics.total}"></span>: <span th:text="${totalEarned}" id="totalEarnedSpan"></span> RUB</p>
+
+                        <a th:href="@{/tours/{id}/statistics(id=${trip.id})}" class="change-button">Получить статистику</a>
                     </div>
                 </th:block>
 
                 <div class="description-container">
                     <h3 th:text="#{trip.description}"></h3>
 
-                    <div class="trip-info">
+                    <div class="trip-info description">
                         <p th:text="${trip.getDescription()}"></p>
                     </div>
 
@@ -141,6 +148,7 @@
             <th:block th:replace="~{fragments/footer :: footer}"></th:block>
         </div>
 
+        <script th:src="@{/js/translates.js}" th:inline="javascript"></script>
         <script th:src="@{/js/trip.js}" th:inline="javascript"></script>
     </body>
 </html>

@@ -9,15 +9,31 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Provides the security configuration for the application.
+ */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class WebSecurityConfig {
+
+    /**
+     * Creates and returns a new instance of the {@link BCryptPasswordEncoder} class.
+     *
+     * @return New instance of {@link BCryptPasswordEncoder}
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Configures a chain of security filters for the application.
+     *
+     * @param http The {@link HttpSecurity} object to customize
+     * @return Customized chain {@link SecurityFilterChain}
+     * @throws Exception If an error occurs during setup
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http

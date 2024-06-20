@@ -4,32 +4,20 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+/**
+ * The main class of the PleasantVacation application.
+ * <p>
+ * This class contains the main method that starts the Spring Boot application.
+ * <p>
+ * The @SpringBootApplication annotation indicates that this is the main class,
+ * that supports autoconfiguration and component-scanning in Spring.
+ * <p>
+ * The @EnableScheduling annotation includes support for task scheduling.
+ */
 @SpringBootApplication
 @EnableScheduling
 public class PleasantVacationApplication {
     public static void main(String[] args) {
         SpringApplication.run(PleasantVacationApplication.class, args);
     }
-
-    /*@Bean
-    public CommandLineRunner run(TripRepository tripRepository) {
-        return (args) -> {
-            tripRepository.save(new Trip("Таганрог", "Description example", "Таганрог", "Россия", Date.valueOf("2022-01-01"), Date.valueOf("2022-01-01"), 50_000, false, TripState.ACTIVE));
-
-            System.out.println(tripRepository.findAll());
-        };
-    }*/
-
-    /*@Bean
-    public CommandLineRunner run(UserRepository userRepository) {
-        return (args) -> {
-            userRepository.save(new User("Иванов",
-                    "Иван",
-                    "Иванович",
-                    "ivanov@example.com",
-                    "12345",
-                    "Таганрог",
-                    "Россия", null));
-        };
-    }*/
 }

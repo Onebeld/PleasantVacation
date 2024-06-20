@@ -61,6 +61,43 @@ function formatDate(dateString) {
     return new Intl.DateTimeFormat(document.documentElement.lang, {dateStyle: "long"}).format(date);
 }
 
+function formatTimestamp(dateString) {
+    const date = new Date(dateString);
+
+    const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric"
+    };
+
+    return new Intl.DateTimeFormat(document.documentElement.lang, options).format(date);
+}
+
+function createCalendarEvent(title, description, startTime, endTime) {
+    startTime = new Date(startTime);
+    endTime = new Date(endTime);
+
+    let href = encodeURI(
+        'data:text/calendar;charset=utf8,' + [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'BEGIN:VEVENT',
+            'URL:' + document.URL,
+            'SUMMARY:' + title,
+            'DESCRIPTION:' + description,
+            'DTSTART:' + startTime.toISOString().replace(/-|:|\.\d\d\d/g, ""),
+            'DTEND:' + endTime.toISOString().replace(/-|:|\.\d\d\d/g, ""),
+            'LOCATION:' + document.querySelector("#trip-country-span").innerText + ", " + document.querySelector("#trip-city-span").innerText,
+            'END:VEVENT',
+            'END:VCALENDAR'
+        ].join('\n'));
+
+    return href;
+}
+
 function updateSlides() {
     imageCountBlock.textContent = `${currentSlide + 1}/${imageSlides.length}`;
 
@@ -69,22 +106,14 @@ function updateSlides() {
     });
 }
 
-/**
- * Получает страницу отзывов из API.
- * @param {number} [page=0] - Номер страницы для получения
- * @returns {Promise<Object>} - Promise, разрешающее данные о рецензиях
- */
 async function getReviewsDto(page = 0) {
     let reviews;
 
-    // Создаем объект URL, через который мы будем обращаться к API сервера
     const url = new URL(window.location.origin + `/api/tours/${document.head.getAttribute("idtrip")}/reviews`);
 
-    // Добавляем параметры запроса, а именно: текущая страница и количество элементов на одной странице
     url.searchParams.append("page", page);
     url.searchParams.append("elementsInPage", 10);
 
-    // Таким образом происходит взаимодействие с сервером при помощи вызова API
     await fetch(url)
         .then(response => response.json())
         .then(data => { reviews = data; });
@@ -100,7 +129,7 @@ function makeReviewList(reviewsDto) {
 
         divReview.querySelector(".review-user").innerText = review.user.surname + " " + review.user.name + " " + review.user.patronymic;
         divReview.querySelector(".review-text").innerText = review.text;
-        divReview.querySelector(".review-data").innerText = formatDate(review.date);
+        divReview.querySelector(".review-data").innerText = formatTimestamp(review.date);
 
         reviewsDiv.appendChild(divReview);
     }
@@ -111,9 +140,6 @@ async function loadReviewsButton(page) {
 
     const reviewsDto = await getReviewsDto(page);
     await makeReviewList(reviewsDto, reviewsDiv);
-
-    /*tripsCount.innerText = tripsDto.trips.length;
-    tripsTotal.innerText = tripsDto.totalElements;*/
 
     reviewsContainer.classList.remove("loading");
 }
@@ -161,7 +187,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (reviewsDto.reviews.length === 0)
         reviewsEmpty.classList.add("show");
-    else reviewsEmpty.classList.remove("show");
+    else
+        reviewsEmpty.classList.remove("show");
 
     reviewsContainer.classList.remove("loading");
 
@@ -171,4 +198,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     const totalEarned = document.querySelector("#totalEarnedSpan");
     if (totalEarned !== null)
         totalEarned.innerText = addThousandsSeparator(totalEarned.innerText);
+
+    const deleteTripForm = document.querySelector("#delete-trip-form");
+    if (deleteTripForm !== null) {
+        deleteTripForm.addEventListener('submit', function (e) {
+            if (!confirm(translates["trip-delete-message"]))
+                e.preventDefault();
+        });
+    }
+
+    const addToCalendar = document.querySelector("#add-to-calendar");
+    if (addToCalendar !== null) {
+        const title = document.querySelector(".title-trip").innerText;
+        const description = document.querySelector(".trip-info.description p").innerText;
+
+        addToCalendar.href = createCalendarEvent(title, description, document.head.getAttribute("startDate"), document.head.getAttribute("endDate"));
+        addToCalendar.download = 'event.ics';
+    }
 });
